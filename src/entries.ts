@@ -2,7 +2,7 @@ import { isNil } from "./predicates";
 
 const objectOwnProps = Object.getOwnPropertyNames({}.__proto__);
 
-const _keys = (obj, enumOnly, followProto): string[] | Set<any>[] => {
+const _keys = (obj, enumOnly, followProto): string[] => {
   if (!followProto) {
     if (enumOnly) {
       return Object.keys(obj);

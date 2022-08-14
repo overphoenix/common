@@ -169,3 +169,7 @@ export const throttle = function (fn, opts = {}) {
     return executor(this, fn, _args);
   };
 };
+
+export {
+  RateLimiter
+}

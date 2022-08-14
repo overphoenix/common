@@ -1,8 +1,8 @@
 import { isArray } from "../predicates";
-import * as EventEmitter from "eventemitter3";
+import { EventEmitter } from "eventemitter3";
 import { throttle } from "../throttle";
 
-export default class AsyncEventEmitter extends EventEmitter {
+export class AsyncEventEmitter extends EventEmitter {
   private onceMap = new Map();
   private throttler?: any = null;
 

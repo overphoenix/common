@@ -1,6 +1,6 @@
 {
   "name": "@recalibratedsystems/common",
-  "version": "0.1.16",
+  "version": "0.1.20",
   "description": "Various primitives.",
   "exports": {
     ".": "./lib/index.js",
@@ -11,7 +11,9 @@
     "./typeof": "./lib/typeof.js",
     "./entries": "./lib/entries.js",
     "./promise": "./lib/promise.js",
-    "./linked_list": "./lib/linked_list.js"
+    "./linked_list": "./lib/linked_list.js",
+    "./async_event_emitter": "./lib/events/async_event_emitter.js",
+    "./throttle": "./lib/throttle/index.js"
   },
   "scripts": {
     "build": "ateos realm build",
