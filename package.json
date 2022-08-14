@@ -1,0 +1,34 @@
+{
+  "name": "@recalibratedsystems/common",
+  "version": "0.1.15",
+  "description": "Various primitives.",
+  "exports": {
+    ".": "./lib/index.js",
+    "./error": "./lib/error/index.js",
+    "./package.json": "./package.json",
+    "./lazify": "./lib/lazify.js",
+    "./namespace": "./lib/namespace.js",
+    "./typeof": "./lib/typeof.js"
+  },
+  "scripts": {
+    "build": "ateos realm build",
+    "test": "ateos shani"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/overphoenix/common.git"
+  },
+  "author": "ATEOS team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/overphoenix/common/issues"
+  },
+  "homepage": "https://github.com/overphoenix/common#readme",
+  "devDependencies": {
+    "@types/node": "^18.7.3"
+  },
+  "dependencies": {
+    "@recalibratedsystems/smartbuffer": "^1.0.3",
+    "indent": "^0.0.2"
+  }
+}
