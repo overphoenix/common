@@ -39,8 +39,8 @@ export const unique = (array: Array<any>, projection?: ((a: any) => void)) => {
   return result;
 };
 
-export const arrify = (val) => {
-  return isUndefined(val)
+export const arrify = (val: any) => {
+  return val === void 0
     ? []
     : !isArray(val)
       ? [val]
@@ -56,9 +56,9 @@ export const omit = (obj?: any, props?: any) => {
   if (isFunction(props)) {
     isShouldOmit = props;
   } else if (isArray(props)) {
-    isShouldOmit = (name) => props.includes(name);
+    isShouldOmit = (name: string) => props.includes(name);
   } else if (isString(props)) {
-    isShouldOmit = (val) => val === props;
+    isShouldOmit = (val: string) => val === props;
   } else if (props === true) {
     return {};
   } else if (!props) {
@@ -79,7 +79,9 @@ export const omit = (obj?: any, props?: any) => {
 
     if (!isShouldOmit(key, val, obj)) {
       const descr = Object.getOwnPropertyDescriptor(obj, key);
-      Object.defineProperty(result, key, descr);
+      if (descr !== void 0) {
+        Object.defineProperty(result, key, descr);
+      }
     }
   }
   return result;

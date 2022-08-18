@@ -1,6 +1,6 @@
 const promiseExists = typeof Promise === "function";
 
-const globalObject = typeof self === "object" ? self : global; // eslint-disable-line id-blacklist
+const globalObject = typeof self === "object" ? self : global;
 
 const symbolExists = typeof Symbol !== "undefined";
 const mapExists = typeof Map !== "undefined";
@@ -23,9 +23,9 @@ const toStringRightSliceLength = -1;
 
 const objectProto = Object.prototype;
 const hasOwnProperty = objectProto.hasOwnProperty;
-const propertyOwned = (obj, field) => hasOwnProperty.call(obj, field);
+const propertyOwned = (obj: any, field: string) => hasOwnProperty.call(obj, field);
 
-const isClass = (value) => (typeof value === "function" && propertyOwned(value, "prototype") && value.prototype && propertyOwned(value.prototype, "constructor") && value.prototype.constructor.toString().substring(0, 5) === "class");
+const isClass = (value: any) => (typeof value === "function" && propertyOwned(value, "prototype") && value.prototype && propertyOwned(value.prototype, "constructor") && value.prototype.constructor.toString().substring(0, 5) === "class");
 
 /**
  * ### typeOf (obj)
@@ -37,7 +37,7 @@ const isClass = (value) => (typeof value === "function" && propertyOwned(value, 
  * @return {String} object type
  * @api public
  */
-export default function (obj) {
+export default function (obj: any): string {
   /**
      * ! Speed optimisation
      * Pre:
@@ -141,8 +141,7 @@ export default function (obj) {
              * Test: `Object.prototype.toString.call(navigator.mimeTypes)``
              *  - IE <=10 === "[object MSMimeTypesCollection]"
              */
-      if (typeof window.navigator.mimeTypes === "object" &&
-        obj === window.navigator.mimeTypes) {
+      if (typeof window.navigator.mimeTypes === "object" && obj === window.navigator.mimeTypes) {
         return "MimeTypeArray";
       }
 
@@ -152,15 +151,12 @@ export default function (obj) {
              * Test: `Object.prototype.toString.call(navigator.plugins)``
              *  - IE <=10 === "[object MSPluginsCollection]"
              */
-      if (typeof window.navigator.plugins === "object" &&
-        obj === window.navigator.plugins) {
+      if (typeof window.navigator.plugins === "object" && obj === window.navigator.plugins) {
         return "PluginArray";
       }
     }
 
-    if ((typeof window.HTMLElement === "function" ||
-      typeof window.HTMLElement === "object") &&
-      obj instanceof window.HTMLElement) {
+    if ((typeof window.HTMLElement === "function" || typeof window.HTMLElement === "object") && obj instanceof window.HTMLElement) {
       /* ! Spec Conformance
             * (https://html.spec.whatwg.org/multipage/webappapis.html#pluginarray)
             * WhatWG HTML$4.4.4 - The `blockquote` element - Interface `HTMLQuoteElement`

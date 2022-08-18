@@ -1,7 +1,6 @@
 import * as path from "path";
-import SmartBuffer from "@recalibratedsystems/smartbuffer";
 import { asNamespace } from "../namespace";
-import AsyncEventEmitter  from "../events/async_event_emitter";
+import { AsyncEventEmitter } from "../events/async_event_emitter";
 import * as EventEmitter from "eventemitter3";
 
 const objectProto = Object.prototype;
@@ -67,8 +66,6 @@ export const isString = (value: any): boolean => typeof value === "string" || va
 export const isNumber = (value: any): boolean => typeof value === "number";
 
 export const isBuffer = (obj: any): boolean => obj != null && ((Boolean(obj.constructor) && typeof obj.constructor.isBuffer === "function" && obj.constructor.isBuffer(obj)) || Boolean(obj._isBuffer));
-
-export const isSmartBuffer = (obj: any): boolean => obj instanceof SmartBuffer;
 
 export const isPlainObject = (value: any): boolean => {
   if (!(value != null && typeof value === "object") || getTag(value) !== "[object Object]") {

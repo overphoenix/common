@@ -1,8 +1,8 @@
-import AsyncEventEmitter from "../lib/events/async_event_emitter";
+import { AsyncEventEmitter } from "../lib/events/async_event_emitter";
 import { isEventEmitter, isAsyncEventEmitter } from "../lib/predicates";
 
 describe("AsyncEventEmitter", () => {
-  it("is.emitter() should return true", () => {
+  it("isEmitter() should return true", () => {
     const emitter = new AsyncEventEmitter();
     expect(isEventEmitter(emitter)).toBeTruthy();
     expect(isAsyncEventEmitter(emitter)).toBeTruthy();
