@@ -2,3 +2,5 @@ src
 tests
 tsconfig.json
 tsconfig.types.json
+jest.config.js
+.swcrc
