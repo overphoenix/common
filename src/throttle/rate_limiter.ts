@@ -142,7 +142,7 @@ class TokenBucket {
   }
 }
 
-export default class RateLimiter {
+export class RateLimiter {
   static TokenBucket = TokenBucket;
 
   private tokensThisInterval = 0;

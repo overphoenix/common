@@ -1,8 +1,8 @@
-import RateLimiter from "./rate_limiter";
+import { RateLimiter } from "./rate_limiter";
 import { isNull, isFunction, isNumber, isPromise } from "../predicates";
-import LinkedList from "../linked_list";
+import { LinkedList } from "../linked_list";
 
-export const DROPPED = Symbol("DROPPED");
+const DROPPED = Symbol("DROPPED");
 
 class Delayed {
   public cancelled = false;
@@ -87,7 +87,7 @@ const throttleNoInterval = (concurrency, drop, dropLast, fn, onDone) => {
   };
 };
 
-export const throttle = function (fn, opts = {}) {
+const throttle = function (fn, opts = {}) {
   if (!isFunction(fn)) {
     [fn, opts] = [opts, fn];
   }
@@ -171,5 +171,7 @@ export const throttle = function (fn, opts = {}) {
 };
 
 export {
-  RateLimiter
+  throttle,
+  RateLimiter,
+  DROPPED
 }
