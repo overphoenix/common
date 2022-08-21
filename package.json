@@ -1,20 +1,14 @@
 {
   "name": "@recalibratedsystems/common",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "description": "Various primitives",
-  "types": "./lib/**/*.d.ts",
+  "types": "./lib/index.d.ts",
   "exports": {
     ".": "./lib/index.js",
-    "./error": "./lib/error/index.js",
     "./package.json": "./package.json",
     "./lazify": "./lib/lazify.js",
     "./namespace": "./lib/namespace.js",
-    "./typeof": "./lib/typeof.js",
-    "./entries": "./lib/entries.js",
-    "./promise": "./lib/promise.js",
-    "./linked_list": "./lib/linked_list.js",
-    "./async_event_emitter": "./lib/events/async_event_emitter.js",
-    "./throttle": "./lib/throttle/index.js"
+    "./typeof": "./lib/typeof.js"
   },
   "scripts": {
     "build": "swc ./src -d ./lib",

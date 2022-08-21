@@ -55,7 +55,7 @@ class Iterator {
 /**
  * Represents a linked list
  */
-export default class LinkedList {
+export class LinkedList {
   /**
    * Default length of a new created linked list
    */
