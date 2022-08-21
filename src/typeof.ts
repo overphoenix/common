@@ -37,7 +37,7 @@ const isClass = (value: any) => (typeof value === "function" && propertyOwned(va
  * @return {String} object type
  * @api public
  */
-export default function (obj: any): string {
+export function typeOf(obj: any): string {
   /**
      * ! Speed optimisation
      * Pre:

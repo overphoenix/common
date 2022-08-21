@@ -1,14 +1,13 @@
 {
   "name": "@recalibratedsystems/common",
-  "version": "0.1.26",
+  "version": "0.1.27",
   "description": "Various primitives",
   "types": "./lib/index.d.ts",
   "exports": {
     ".": "./lib/index.js",
     "./package.json": "./package.json",
     "./lazify": "./lib/lazify.js",
-    "./namespace": "./lib/namespace.js",
-    "./typeof": "./lib/typeof.js"
+    "./namespace": "./lib/namespace.js"
   },
   "scripts": {
     "build": "swc ./src -d ./lib",
