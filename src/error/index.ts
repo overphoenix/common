@@ -1,5 +1,6 @@
 import { isString } from "../predicates";
-import * as indent from "indent";
+
+const indent = require("indent");
 
 export const exceptionIdMap: Record<any, number> = {};
 export const stdIdMap = {};
@@ -7,14 +8,14 @@ export const stdExceptions: any[] = [];
 export const ateosExceptions: any[] = [];
 
 export class Exception extends Error {
-  public id: number;
+  public id: number = 0;
 
-  constructor(message, captureStackTrace = true) {
+  constructor(message: any, captureStackTrace = true) {
+    super(message instanceof Error ? message.message : message);
+
     if (message instanceof Error) {
-      super(message.message);
       this.stack = message.stack;
     } else {
-      super(message);
       // special case for mpak-serializer
       if (message === null) {
         return;
@@ -93,7 +94,7 @@ export const cleanStack = (stack, { pretty = false } = {}) => {
 
       // Electron
       if (match.includes(".app/Contents/Resources/electron.asar") ||
-                match.includes(".app/Contents/Resources/default_app.asar")) {
+        match.includes(".app/Contents/Resources/default_app.asar")) {
         return false;
       }
 
@@ -110,7 +111,7 @@ export const cleanStack = (stack, { pretty = false } = {}) => {
     .join("\n");
 };
 
-const cleanInternalStack = (stack) => stack.replace(/\s+at .*aggregate-error\/index.js:\d+:\d+\)?/g, "");
+const cleanInternalStack = (stack: string) => stack.replace(/\s+at .*aggregate-error\/index.js:\d+:\d+\)?/g, "");
 
 export class AggregateException extends Exception {
   constructor(private errors: any[]) {
@@ -201,13 +202,13 @@ for (let i = 0; i < keys.length; i++) {
   }
 }
 
-export const createError = (id, message, stack) => {
+export const createError = (id: number, message: string, stack?: string) => {
   const err = new idExceptionMap[id](message);
   err.stack = stack;
   return err;
 };
 
-export const getStdErrorId = (err) => stdIdMap[err.constructor.name];
+export const getStdErrorId = (err: any) => stdIdMap[err.constructor.name];
 
-export * as errno from "./errno";
+export * as errno from "errno";
 export * as stack from "./stack";

@@ -22,7 +22,7 @@ export class AsyncEventEmitter extends EventEmitter {
     return this;
   }
 
-  emitParallel(event, ...args) {
+  emitParallel(event: any, ...args: any[]) {
     const promises: Promise<any>[] = [];
 
     this.listeners(event).forEach((listener) => {
@@ -32,30 +32,30 @@ export class AsyncEventEmitter extends EventEmitter {
     return Promise.all(promises);
   }
 
-  emitSerial(event, ...args) {
+  emitSerial(event: any, ...args: any[]) {
     return this.listeners(event).reduce((promise, listener) => promise.then((values) =>
-      this._executeListener(listener, args).then((value) => {
+      this._executeListener(listener, args).then((value: any) => {
         values.push(value);
         return values;
       })
     ), Promise.resolve([]));
   }
 
-  emitReduce(event, ...args) {
+  emitReduce(event: any, ...args: any[]) {
     return this._emitReduceRun(event, args);
   }
 
-  emitReduceRight(event, ...args) {
+  emitReduceRight(event: any, ...args: any[]) {
     return this._emitReduceRun(event, args, true);
   }
 
-  once(event, listener?) {
+  once(event: any, listener?: ((...args: any[]) => void)) {
     if (typeof listener !== "function") {
       throw new TypeError("listener must be a function");
     }
     let fired = false;
     const self = this;
-    const onceListener = function (...args) {
+    const onceListener = function (...args: any[]) {
       self.removeListener(event, onceListener);
       if (fired === false) {
         fired = true;
@@ -68,7 +68,7 @@ export class AsyncEventEmitter extends EventEmitter {
     return this;
   }
 
-  removeListener(event, listener) {
+  removeListener(event: any, listener?: ((...args: any[]) => void)) {
     if (this.onceMap.has(listener)) {
       const t = this.onceMap.get(listener);
       this.onceMap.delete(listener);
@@ -77,7 +77,7 @@ export class AsyncEventEmitter extends EventEmitter {
     return super.removeListener(event, listener);
   }
 
-  subscribe(event, listener, once = false) {
+  subscribe(event: any, listener: ((...args: any[]) => void), once = false) {
     const unsubscribe = () => {
       this.removeListener(event, listener);
     };
@@ -91,7 +91,7 @@ export class AsyncEventEmitter extends EventEmitter {
     return unsubscribe;
   }
 
-  private _emitReduceRun(event, args, inverse = false) {
+  private _emitReduceRun(event: any, args: any[], inverse = false) {
     const listeners = inverse ? this.listeners(event).reverse() : this.listeners(event);
     return listeners.reduce((promise, listener) => promise.then((prevArgs) => {
       const currentArgs = isArray(prevArgs) ? prevArgs : [prevArgs];
@@ -99,7 +99,7 @@ export class AsyncEventEmitter extends EventEmitter {
     }), Promise.resolve(args));
   }
 
-  private _executeListener(listener, args): Promise<any> {
+  private _executeListener(listener: ((...args: any[]) => void), args: any[]): Promise<any> {
     try {
       if (this.throttler) {
         return this.throttler(() => listener(...args));

@@ -1,8 +1,8 @@
 import { isNil } from "./predicates";
 
-const objectOwnProps = Object.getOwnPropertyNames({}.__proto__);
+const objectOwnProps = Object.getOwnPropertyNames(Object.getPrototypeOf({}));
 
-const _keys = (obj, enumOnly, followProto): string[] => {
+const _keys = (obj: any, enumOnly: boolean, followProto: boolean): string[] => {
   if (!followProto) {
     if (enumOnly) {
       return Object.keys(obj);

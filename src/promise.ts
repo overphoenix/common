@@ -38,7 +38,7 @@ export const defer = () => {
  * @param {T} [value] resolving value
  * @returns {Promise<T>}
  */
-export const delay = (ms, value?, options?: { unref?: boolean }) => {
+export const delay = (ms: number, value?: any, options?: { unref?: boolean }) => {
   return new Promise((resolve) => {
     const timer = setTimeout(resolve, ms, value);
     if (options && options.unref) {
@@ -55,7 +55,7 @@ export const delay = (ms, value?, options?: { unref?: boolean }) => {
  * @param {number} ms timeout in milliseconds
  * @returns {Promise<T>}
  */
-export const timeout = (promise, ms) => {
+export const timeout = (promise: Promise<any>, ms: number) => {
   if (!isPromise(promise)) {
     throw new TypeError("The first argument must be a promise");
   }
@@ -75,7 +75,10 @@ export const timeout = (promise, ms) => {
       clearTimeout(timer);
       if (new Date() - timestamp >= ms) {
         const err = new Error(`Timeout of ${ms}ms exceeded`);
-        err["original"] = y;
+        Object.defineProperty(err, "original", {
+          enumerable: true,
+          value: y
+        });
         reject(err);
       } else {
         reject(y);
@@ -90,7 +93,7 @@ export const timeout = (promise, ms) => {
  * @param {Promise} promise
  * @param {Function} cb
  */
-export const nodeify = (promise, cb) => {
+export const nodeify = (promise: Promise<any>, cb: Function) => {
   if (!isPromise(promise)) {
     throw new TypeError("The first argument must be a promise");
   }
@@ -111,11 +114,11 @@ export const nodeify = (promise, cb) => {
  * @param {Function} fn Function
  * @returns {Promise} the original promise
  */
-export const callbackify = (fn) => {
+export const callbackify = (fn: Function) => {
   if (!isFunction(fn)) {
     throw new TypeError("The first argument must be a function");
   }
-  return function (...args) {
+  return function (...args: any[]) {
     if (args.length && isFunction(args[args.length - 1])) {
       const cb = args.pop();
       return nodeify(fn.apply(this, args), cb);
@@ -124,9 +127,9 @@ export const callbackify = (fn) => {
   };
 };
 
-const processFn = (fn, context, args, multiArgs, resolve, reject) => {
+const processFn = (fn:Function, context: any, args: any[], multiArgs: boolean, resolve: Function, reject: Function) => {
   if (multiArgs) {
-    args.push((...result) => {
+    args.push((...result: any[]) => {
       if (result[0]) {
         reject(result);
       } else {
@@ -135,7 +138,7 @@ const processFn = (fn, context, args, multiArgs, resolve, reject) => {
       }
     });
   } else {
-    args.push((err, result) => {
+    args.push((err: any, result: any) => {
       if (err) {
         reject(err);
       } else {
@@ -153,18 +156,18 @@ const processFn = (fn, context, args, multiArgs, resolve, reject) => {
  * @param {object} [context] Context to bind to new function
  * @returns {Function}
  */
-export const promisify = (fn, options?: { context?: any, multiArgs?: boolean}) => {
+export const promisify = (fn: Function, options?: { context?: any, multiArgs?: boolean}) => {
   if (!isFunction(fn)) {
     throw new TypeError("The first argument must be a function");
   }
 
   return options && options.context
-    ? (...args) => new Promise((resolve, reject) => {
-      processFn(fn, options.context, args, options.multiArgs, resolve, reject);
+    ? (...args: any[]) => new Promise((resolve, reject) => {
+      processFn(fn, options.context, args, options && Boolean(options.multiArgs), resolve, reject);
     })
-    : function (...args) {
+    : function (...args: any[]) {
       return new Promise((resolve, reject) => {
-        processFn(fn, this, args, options && options.multiArgs, resolve, reject);
+        processFn(fn, this, args, options && Boolean(options.multiArgs), resolve, reject);
       });
     };
 };
@@ -178,7 +181,7 @@ export const promisify = (fn, options?: { context?: any, multiArgs?: boolean}) =
  * @param {object} [context] Context to bind to new functions
  * @returns {object} object with promisified functions
  */
-export const promisifyAll = (source, options?: { suffix?: string, filter: Function, context?: any }) => {
+export const promisifyAll = (source: any, options?: { suffix?: string, filter: Function, context?: any }) => {
   const suffix = options && options.suffix ? options.suffix: "Async";
   const filter = options && typeof options.filter === "function" ? options.filter : truly;
   
@@ -202,7 +205,7 @@ export const promisifyAll = (source, options?: { suffix?: string, filter: Functi
  * @param {Function} onFinally callback to call
  * @returns {Promise} a promise that will be fulfilled using the original value
  */
-const _finally = (promise, onFinally) => {
+const _finally = (promise: Promise<any>, onFinally: Function) => {
   onFinally = onFinally || noop;
 
   return promise.then((val) => new Promise((resolve) => {
@@ -219,7 +222,7 @@ export { _finally as finally };
 /**
  * Calls the given function after some timeout until the result is returned or it cannot be restarted anymore
  */
-export const retry = async (callback, options) => {
+export const retry = async (callback: Function, options: any) => {
   if (!callback || !options) {
     throw new Error("requires a callback and an options set or a number");
   }
@@ -255,14 +258,14 @@ export const retry = async (callback, options) => {
         p = timeout(p, options.timeout);
       }
       return await p;
-    } catch (err) {
+    } catch (err: any) {
       if (options.report) {
         options.report(`Try ${options.name} #${options.$current} failed: ${err.toString()}`, options, err);
       }
       let shouldRetry = options.$current < options.max;
       if (shouldRetry && options.match.length && err) {
         // If match is defined we should fail if it is not met
-        shouldRetry = options.match.reduce((shouldRetry, match) => {
+        shouldRetry = options.match.reduce((shouldRetry: true, match: any) => {
           if (shouldRetry) {
             return shouldRetry;
           }
@@ -297,23 +300,26 @@ export const retry = async (callback, options) => {
   }
 };
 
-export const props = async (obj) => {
+export const props = async (obj: any) => {
   const result = {};
   await Promise.all(Object.keys(obj).map(async (key) => {
-    result[key] = await obj[key];
+    Object.defineProperty(result, key, {
+      enumerable: true,
+      value: await obj[key]
+    });
   }));
   return result;
 };
 
 
-const try_ = (fn, ...args) => new Promise((resolve) => {
+const try_ = (fn: Function, ...args: any[]) => new Promise((resolve) => {
   resolve(fn(...args));
 });
 
 export { try_ as try };
 
 
-export const universalify = (fn) => {
+export const universalify = (fn: Function) => {
   const props = {
     name: {
       value: fn.name
@@ -326,12 +332,12 @@ export const universalify = (fn) => {
       return props;
     }, {})
   };
-  return Object.defineProperties(function (...args) {
+  return Object.defineProperties(function (...args: any[]) {
     if (isFunction(args[args.length - 1])) {
       fn.apply(this, args);
     } else {
       return new Promise((resolve, reject) => {
-        args.push((err, res) => {
+        args.push((err: any, res: any) => {
           if (err) {
             return reject(err);
           }
@@ -343,12 +349,12 @@ export const universalify = (fn) => {
   }, props);
 };
 
-export const universalifyFromPromise = (fn) => {
-  return Object.defineProperty(function (...args) {
+export const universalifyFromPromise = (fn: Function) => {
+  return Object.defineProperty(function (...args: any[]) {
     const cb = args[args.length - 1];
     if (!isFunction(cb)) {
       return fn.apply(this, args);
     }
-    fn.apply(this, args).then((r) => cb(null, r), cb);
+    fn.apply(this, args).then((r: any) => cb(null, r), cb);
   }, "name", { value: fn.name });
 };

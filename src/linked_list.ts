@@ -15,7 +15,7 @@ class Iterator {
   private _started = false;
   private cursor: any;
 
-  constructor(public list) {
+  constructor(public list: LinkedList) {
     this.reset();
   }
 
@@ -130,7 +130,7 @@ export default class LinkedList {
      *
      * @param {number} newLength
      */
-  resize(newLength) {
+  resize(newLength: number) {
     if (newLength === this._maxLength) {
       return this;
     }
@@ -172,7 +172,7 @@ export default class LinkedList {
      *
      * @returns {Node} Added node
      */
-  push(value): Node {
+  push(value: any): Node {
     if (this.full) {
       if (this.autoresize) {
         this.resize(this._maxLength * 2);
@@ -226,7 +226,7 @@ export default class LinkedList {
      *
      * @returns {Node} Added node
      */
-  unshift(value) {
+  unshift(value: any) {
     if (this.full) {
       if (this.autoresize) {
         this.resize(this._maxLength * 2);
@@ -245,15 +245,15 @@ export default class LinkedList {
      *
      * @returns {void}
      */
-  pushNode(node) {
+  pushNode(node: Node) {
     if (node === this.tail) {
       return;
     }
     if (node === this.head) {
       this.head = this.head.next as Node;
     }
-    node.next.prev = node.prev;
-    node.prev.next = node.next;
+    (node.next as Node).prev = node.prev;
+    (node.prev as Node).next = node.next;
 
     node.next = this.tail.next;
     (this.tail.next as Node).prev = node;
@@ -267,15 +267,15 @@ export default class LinkedList {
      *
      * @returns {void}
      */
-  unshiftNode(node) {
+  unshiftNode(node: Node) {
     if (node === this.head) {
       return;
     }
     if (node === this.tail) {
       this.tail = this.tail.prev as Node;
     }
-    node.next.prev = node.prev;
-    node.prev.next = node.next;
+    (node.next as Node).prev = node.prev;
+    (node.prev as Node).next = node.next;
 
     node.prev = this.head.prev;
     (this.head.prev as Node).next = node;
@@ -291,7 +291,7 @@ export default class LinkedList {
      *
      * @returns {void}
      */
-  removeNode(node) {
+  removeNode(node: Node) {
     if (node === this.tail) {
       this.tail.value = empty;
       this.tail = this.tail.prev as Node;
@@ -373,7 +373,7 @@ export default class LinkedList {
      * @param {Node} node
      * @returns {Node} the next node
      */
-  nextNode(node) {
+  nextNode(node: Node) {
     if (!node) {
       return this.empty ? null : this.head;
     }
@@ -390,7 +390,7 @@ export default class LinkedList {
      * @param {(value: any, idx: number) => void} callback
      * @returns {void}
      */
-  forEach(callback) {
+  forEach(callback: Function) {
     let cursor = this.head;
     for (let i = 0; i < this.length; ++i) {
       // eslint-disable-next-line callback-return
@@ -407,9 +407,9 @@ export default class LinkedList {
      * @param {(value: any, idx: number) => any} fn
      * @returns {LinkedList}
      */
-  map(fn) {
+  map(fn: Function) {
     const res = new LinkedList();
-    this.forEach((value, idx) => {
+    this.forEach((value: any, idx: number) => {
       res.push(fn(value, idx));
     });
     return res;

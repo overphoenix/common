@@ -49,14 +49,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log
 
-# realm files/dirs
-/etc/
 /bin/
 /lib/
-/run/
-/var/
-/opt/
-/tmp/
+
 
 # lock files
 package-lock.json
