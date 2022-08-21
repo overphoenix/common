@@ -1,7 +1,7 @@
 {
   "name": "@recalibratedsystems/common",
-  "version": "0.1.22",
-  "description": "Various primitives.",
+  "version": "0.1.23",
+  "description": "Various primitives",
   "types": "./lib/**/*.d.ts",
   "exports": {
     ".": "./lib/index.js",
