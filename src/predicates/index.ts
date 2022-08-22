@@ -352,14 +352,14 @@ export const isInArray = (value: any, array: any[], offset: number, comparator: 
   return false;
 };
 
-export const isIterable = (obj) => obj && isFunction(obj[Symbol.iterator]);
+export const isIterable = (obj: any) => obj && isFunction(obj[Symbol.iterator]);
 
 // Checks whether given values are of the same type.
-export const isSameType = (value, other) => (typeof value === typeof other && getTagSimple(value) === getTagSimple(other));
+export const isSameType = (value: any, other: any) => (typeof value === typeof other && getTagSimple(value) === getTagSimple(other));
 
 // Does a shallow comparison of two objects, returning false if the keys or values differ.
 // The purpose is to do the fastest comparison possible of two objects when the values will predictably be primitives.
-export const isShallowEqual = (a, b) => {
+export const isShallowEqual = (a: any, b: any) => {
   if (!a && !b) {
     return true;
   }
@@ -678,7 +678,7 @@ export const isKnownError = (err: any) => {
   return false;
 };
 
-const uuidPatterns = {
+const uuidPatterns: Record<number | string, RegExp> = {
   1: /^[0-9a-f]{8}-[0-9a-f]{4}-[1][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
   2: /^[0-9a-f]{8}-[0-9a-f]{4}-[2][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
   3: /^[0-9a-f]{8}-[0-9a-f]{4}-[3][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
@@ -695,7 +695,7 @@ export const isUuid = (str: string, version = "all") => {
   return pattern && pattern.test(str);
 };
 
-const toDate = (date) => {
+const toDate = (date: any) => {
   date = Date.parse(date);
   return !isNaN(date) ? new Date(date) : null;
 };

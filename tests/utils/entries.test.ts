@@ -1,4 +1,4 @@
-import { keys } from "../lib/entries";
+import { keys } from "../../lib";
 import { inherits } from "util";
 const noop = () => { };
 

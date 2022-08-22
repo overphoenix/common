@@ -26,7 +26,7 @@ export const parse = function (err) {
   const lines = err.stack.split("\n").slice(1);
 
   return lines
-    .map((line) => {
+    .map((line: string) => {
       if (line.match(/^\s*[-]{4,}$/)) {
         return self._createParsedCallSite({
           fileName: line,

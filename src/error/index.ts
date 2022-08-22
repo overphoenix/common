@@ -3,7 +3,7 @@ import { isString } from "../predicates";
 const indent = require("indent");
 
 export const exceptionIdMap: Record<any, number> = {};
-export const stdIdMap = {};
+export const stdIdMap: Record<string, number> = {};
 export const stdExceptions: any[] = [];
 export const ateosExceptions: any[] = [];
 
@@ -81,7 +81,7 @@ const extractPathRegex = /\s+at.*(?:\(|\s)(.*)\)?/;
 const pathRegex = /^(?:(?:(?:node|(?:internal\/[\w/]*|.*node_modules\/babel-polyfill\/.*)?\w+)\.js:\d+:\d+)|native)/;
 const homeDir = require("os").homedir();
 
-export const cleanStack = (stack, { pretty = false } = {}) => {
+export const cleanStack = (stack: string, { pretty = false } = {}) => {
   return stack.replace(/\\/g, "/")
     .split("\n")
     .filter((x) => {
@@ -137,7 +137,7 @@ export class AggregateException extends Exception {
 }
 
 
-export const idExceptionMap = {
+export const idExceptionMap: Record<number, any> = {
   1: Error,
   2: SyntaxError,
   3: TypeError,

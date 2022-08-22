@@ -1,8 +1,7 @@
 
 import { isArray, isNumber, isFunction, isPromise, isUndefined } from "./predicates";
-import { noop, truly } from "./utils";
-import { entries } from "./entries";
-
+import { entries } from "./utils";
+import { noop, truly } from "./primitives";
 /**
  * @typedef Deferred
  * @property {Function} resolve
@@ -127,7 +126,7 @@ export const callbackify = (fn: Function) => {
   };
 };
 
-const processFn = (fn:Function, context: any, args: any[], multiArgs: boolean, resolve: Function, reject: Function) => {
+const processFn = (fn: Function, context: any, args: any[], multiArgs: boolean, resolve: Function, reject: Function) => {
   if (multiArgs) {
     args.push((...result: any[]) => {
       if (result[0]) {
@@ -156,7 +155,7 @@ const processFn = (fn:Function, context: any, args: any[], multiArgs: boolean, r
  * @param {object} [context] Context to bind to new function
  * @returns {Function}
  */
-export const promisify = (fn: Function, options?: { context?: any, multiArgs?: boolean}) => {
+export const promisify = (fn: Function, options?: { context?: any, multiArgs?: boolean }) => {
   if (!isFunction(fn)) {
     throw new TypeError("The first argument must be a function");
   }
@@ -167,7 +166,7 @@ export const promisify = (fn: Function, options?: { context?: any, multiArgs?: b
     })
     : function (...args: any[]) {
       return new Promise((resolve, reject) => {
-        processFn(fn, this, args, options && Boolean(options.multiArgs), resolve, reject);
+        processFn(fn, this, args, Boolean(options?.multiArgs), resolve, reject);
       });
     };
 };
@@ -182,9 +181,9 @@ export const promisify = (fn: Function, options?: { context?: any, multiArgs?: b
  * @returns {object} object with promisified functions
  */
 export const promisifyAll = (source: any, options?: { suffix?: string, filter: Function, context?: any }) => {
-  const suffix = options && options.suffix ? options.suffix: "Async";
+  const suffix = options && options.suffix ? options.suffix : "Async";
   const filter = options && typeof options.filter === "function" ? options.filter : truly;
-  
+
   if (isFunction(source)) {
     return promisify(source, options);
   }

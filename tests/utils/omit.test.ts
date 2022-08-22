@@ -1,6 +1,4 @@
-import { isFunction, omit } from "../src";
-import { keys } from "../src/entries";
-
+import { keys, isFunction, omit } from "../../lib";
 
 describe("omit", () => {
   it("should omit a key from the object", () => {
