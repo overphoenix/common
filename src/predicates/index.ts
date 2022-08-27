@@ -3,6 +3,7 @@ import { asNamespace } from "../namespace";
 import { AsyncEventEmitter } from "../events/async_event_emitter";
 import { EventEmitter } from "eventemitter3";
 import { ateosExceptions, stdExceptions } from "../error";
+import { regexIP, regexIP4, regexIP6 } from "../regex";
 
 const objectProto = Object.prototype;
 const hasOwnProperty = objectProto.hasOwnProperty;
@@ -653,9 +654,9 @@ const binaryExtensions = new Set([
 export const isBinaryExtension = (x: any) => binaryExtensions.has(x);
 export const isBinaryPath = (x: any) => binaryExtensions.has(path.extname(x).slice(1).toLowerCase());
 
-// export const ip4 = (ip, options) => ateos.regex.ip4(options).test(ip);
-// export const ip6 = (ip, options) => ateos.regex.ip6(options).test(ip);
-// export const ip = (ip, options) => ateos.regex.ip(options).test(ip);
+export const isIP6 = (ip: any, options: { exact: boolean }) => regexIP6(options).test(ip);
+export const isIP4 = (ip: any, options: { exact: boolean }) => regexIP4(options).test(ip);
+export const isIP = (ip: any, options: { exact: boolean }) => regexIP(options).test(ip);
 
 export const isKnownError = (err: any) => {
   if (!(err instanceof Error)) {

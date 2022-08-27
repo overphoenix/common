@@ -6,4 +6,5 @@ export * from "./utils";
 export * from "./throttle";
 export * from "./linked_list";
 export * from "./typeof";
+export * from "./regex";
 export * as promise from "./promise";
