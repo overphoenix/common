@@ -654,9 +654,9 @@ const binaryExtensions = new Set([
 export const isBinaryExtension = (x: any) => binaryExtensions.has(x);
 export const isBinaryPath = (x: any) => binaryExtensions.has(path.extname(x).slice(1).toLowerCase());
 
-export const isIP6 = (ip: any, options: { exact: boolean }) => regexIP6(options).test(ip);
-export const isIP4 = (ip: any, options: { exact: boolean }) => regexIP4(options).test(ip);
-export const isIP = (ip: any, options: { exact: boolean }) => regexIP(options).test(ip);
+export const isIP6 = (ip: any, options?: { exact: boolean }) => regexIP6(options).test(ip);
+export const isIP4 = (ip: any, options?: { exact: boolean }) => regexIP4(options).test(ip);
+export const isIP = (ip: any, options?: { exact: boolean }) => regexIP(options).test(ip);
 
 export const isKnownError = (err: any) => {
   if (!(err instanceof Error)) {
