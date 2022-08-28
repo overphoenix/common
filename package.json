@@ -1,6 +1,6 @@
 {
   "name": "@recalibratedsystems/common",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Common library",
   "types": "./lib/index.d.ts",
   "type": "module",
@@ -46,7 +46,6 @@
   },
   "dependencies": {
     "errno": "^1.0.0",
-    "eventemitter3": "^4.0.7",
     "indent": "^0.0.2"
   }
 }

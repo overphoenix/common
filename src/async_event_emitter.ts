@@ -1,6 +1,6 @@
-import { isArray } from '../predicates/index.js';
-import { EventEmitter } from 'eventemitter3';
-import { throttle } from '../throttle/index.js';
+import { isArray } from './predicates/index.js';
+import { EventEmitter } from 'node:events';
+import { throttle } from './throttle/index.js';
 
 export class AsyncEventEmitter extends EventEmitter {
   private onceMap = new Map();
@@ -78,7 +78,7 @@ export class AsyncEventEmitter extends EventEmitter {
       this.onceMap.delete(listener);
       listener = t;
     }
-    return super.removeListener(event, listener);
+    return super.removeListener(event, listener!);
   }
 
   subscribe(event: any, listener: (...args: any[]) => void, once = false) {
@@ -110,7 +110,7 @@ export class AsyncEventEmitter extends EventEmitter {
   }
 
   private _executeListener(
-    listener: (...args: any[]) => void,
+    listener: Function,
     args: any[],
   ): Promise<any> {
     try {
