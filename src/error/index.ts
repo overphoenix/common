@@ -1,6 +1,5 @@
 import { isString } from '../predicates/index.js';
-
-const indent = require('indent');
+import * as indent from 'indent';
 
 export const exceptionIdMap: Record<any, number> = {};
 export const stdIdMap: Record<string, number> = {};
