@@ -1,6 +1,6 @@
-import { isArray } from '../predicates';
+import { isArray } from '../predicates/index.js';
 import { EventEmitter } from 'eventemitter3';
-import { throttle } from '../throttle';
+import { throttle } from '../throttle/index.js';
 
 export class AsyncEventEmitter extends EventEmitter {
   private onceMap = new Map();

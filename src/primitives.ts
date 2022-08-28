@@ -1,4 +1,4 @@
-import { isArray } from './predicates';
+import { isArray } from './predicates/index.js';
 
 export const EMPTY_BUFFER = Buffer.allocUnsafe(0);
 

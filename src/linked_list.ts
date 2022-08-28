@@ -1,5 +1,5 @@
-import { isFinite } from './predicates';
-import { IllegalStateException } from './error';
+import { isFinite } from './predicates/index.js';
+import { IllegalStateException } from './error/index.js';
 
 const empty = Symbol.for('rs:empty');
 

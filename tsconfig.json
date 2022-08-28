@@ -13,7 +13,6 @@
     "lib": ["ES2021"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
     "declaration": true,
     "removeComments": true,
     "moduleResolution": "NodeNext",

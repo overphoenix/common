@@ -6,8 +6,8 @@ import {
   isObject,
   isPlainObject,
   isRegexp,
-} from '../predicates';
-import { keys } from './entries';
+} from '../predicates/index.js';
+import { keys } from './entries.js';
 
 export class Cloner {
   clone(

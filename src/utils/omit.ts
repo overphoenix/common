@@ -1,8 +1,8 @@
-import { falsely } from '../primitives';
-import { isArray, isFunction, isObject, isString } from '../predicates';
-import { typeOf } from '../typeof';
-import { keys } from './entries';
-import { InvalidArgumentException } from '../error';
+import { falsely } from '../primitives.js';
+import { isArray, isFunction, isObject, isString } from '../predicates/index.js';
+import { typeOf } from '../typeof.js';
+import { keys } from './entries.js';
+import { InvalidArgumentException } from '../error/index.js';
 
 export const omit = (obj?: any, props?: any) => {
   if (!isObject(obj)) {

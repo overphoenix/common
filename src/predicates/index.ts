@@ -1,9 +1,9 @@
 import path from 'node:path';
-import { asNamespace } from '../namespace';
-import { AsyncEventEmitter } from '../events/async_event_emitter';
+import { asNamespace } from '../namespace.js';
+import { AsyncEventEmitter } from '../events/async_event_emitter.js';
 import { EventEmitter } from 'eventemitter3';
-import { ateosExceptions, stdExceptions } from '../error';
-import { regexIP, regexIP4, regexIP6 } from '../regex';
+import { ateosExceptions, stdExceptions } from '../error/index.js';
+import { regexIP, regexIP4, regexIP6 } from '../regex.js';
 
 const objectProto = Object.prototype;
 const hasOwnProperty = objectProto.hasOwnProperty;

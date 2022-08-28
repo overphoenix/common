@@ -4,3 +4,5 @@ tsconfig.json
 tsconfig.types.json
 jest.config.js
 .swcrc
+.eslintrc.js
+.prettierrc

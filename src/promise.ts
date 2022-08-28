@@ -4,9 +4,9 @@ import {
   isFunction,
   isPromise,
   isUndefined,
-} from './predicates';
-import { entries } from './utils';
-import { noop, truly } from './primitives';
+} from './predicates/index.js';
+import { entries } from './utils/index.js';
+import { noop, truly } from './primitives.js';
 /**
  * @typedef Deferred
  * @property {Function} resolve
@@ -204,7 +204,14 @@ export const promisify = (
     : function (...args: any[]) {
         return new Promise((resolve, reject) => {
           // @ts-ignore
-          processFn(fn, this, args, Boolean(options?.multiArgs), resolve, reject);
+          processFn(
+            fn,
+            this,
+            args,
+            Boolean(options?.multiArgs),
+            resolve,
+            reject,
+          );
         });
       };
 };

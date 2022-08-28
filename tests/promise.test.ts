@@ -11,7 +11,7 @@ import {
   promisify,
   promisifyAll,
 } from '../lib/promise';
-import { noop } from '../lib/utils';
+import { noop } from '../lib';
 
 describe('defer', () => {
   it('should have a promise', () => {

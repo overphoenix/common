@@ -1,5 +1,5 @@
-import { isPlainObject } from './predicates';
-import { asNamespace, PRIVATE_SYMBOL } from './namespace';
+import { isPlainObject } from './predicates/index.js';
+import { asNamespace, PRIVATE_SYMBOL } from './namespace.js';
 
 export const defaultMapper = (mod: any, key: string): any =>
   mod !== null &&

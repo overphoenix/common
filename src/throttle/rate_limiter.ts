@@ -1,5 +1,5 @@
-import { isString } from '../predicates';
-import { delay } from '../promise';
+import { isString } from '../predicates/index.js';
+import { delay } from '../promise.js';
 
 const getMilliseconds = function () {
   const hrtime = process.hrtime();

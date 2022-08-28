@@ -1,4 +1,4 @@
-import { isString } from '../predicates';
+import { isString } from '../predicates/index.js';
 
 const indent = require('indent');
 
@@ -221,4 +221,4 @@ export const createError = (id: number, message: string, stack?: string) => {
 export const getStdErrorId = (err: any) => stdIdMap[err.constructor.name];
 
 export * as errno from 'errno';
-export * as stack from './stack';
+export * as stack from './stack.js';

@@ -1,4 +1,4 @@
-import { isNil } from '../predicates';
+import { isNil } from '../predicates/index.js';
 
 const objectOwnProps = Object.getOwnPropertyNames(Object.getPrototypeOf({}));
 

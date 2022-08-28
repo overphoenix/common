@@ -1,6 +1,6 @@
-import { isPlainObject } from '../predicates';
-import { clone } from './clone';
-import { entries } from './entries';
+import { isPlainObject } from '../predicates/index.js';
+import { clone } from './clone.js';
+import { entries } from './entries.js';
 
 export const assignDeep = (target: any, ...sources: any[]) => {
   const result = target || {};
