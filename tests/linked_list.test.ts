@@ -1,8 +1,8 @@
-import LinkedList from "../lib/linked_list";
-import { IllegalStateException } from "../lib/error";
+import { LinkedList } from '../lib/linked_list';
+import { IllegalStateException } from '../lib/error';
 
-describe("LinkedList", () => {
-  const empty = Symbol.for("rs:empty");
+describe('LinkedList', () => {
+  const empty = Symbol.for('rs:empty');
 
   const rolling = (list, expected) => {
     const n = list.maxLength * 2;
@@ -19,7 +19,7 @@ describe("LinkedList", () => {
     }
   };
 
-  it("should create a list of fixed size", () => {
+  it('should create a list of fixed size', () => {
     const list = new LinkedList(10);
 
     let cursor = list.head;
@@ -36,14 +36,14 @@ describe("LinkedList", () => {
     expect(list.maxLength).toEqual(10);
   });
 
-  describe("push", () => {
-    it("should push a value", () => {
+  describe('push', () => {
+    it('should push a value', () => {
       const list = new LinkedList(5);
       list.push(1);
       rolling(list, [1, empty, empty, empty, empty]);
     });
 
-    it("should return a node", () => {
+    it('should return a node', () => {
       const list = new LinkedList(10);
       let n = list.push(1);
       expect(n).toEqual(list.head);
@@ -52,17 +52,17 @@ describe("LinkedList", () => {
       expect(n).toEqual(list.head.next);
     });
 
-    it("should prevent push into a full list", () => {
+    it('should prevent push into a full list', () => {
       const list = new LinkedList(10);
       for (let i = 0; i < 10; ++i) {
         list.push(1);
       }
-      expect(() => list.push(1)).toThrow(new IllegalStateException("Full"));
+      expect(() => list.push(1)).toThrow(new IllegalStateException('Full'));
     });
   });
 
-  describe("pop", () => {
-    it("should pop a value", () => {
+  describe('pop', () => {
+    it('should pop a value', () => {
       const list = new LinkedList(5);
       list.push(1);
       const val = list.pop();
@@ -70,18 +70,18 @@ describe("LinkedList", () => {
       rolling(list, [empty, empty, empty, empty, empty]);
     });
 
-    it("should return undefined if the the list is empty", () => {
+    it('should return undefined if the the list is empty', () => {
       const list = new LinkedList(10);
       expect(list.pop()).toBeUndefined();
     });
   });
 
-  it("the length should be zero", () => {
+  it('the length should be zero', () => {
     const list = new LinkedList(10);
     expect(list.length).toEqual(0);
   });
 
-  it("should change the length", () => {
+  it('should change the length', () => {
     const list = new LinkedList(10);
     list.push(1);
     expect(list.length).toEqual(1);
@@ -89,7 +89,7 @@ describe("LinkedList", () => {
     expect(list.length).toEqual(0);
   });
 
-  it("should indicate the emptiness of a list", () => {
+  it('should indicate the emptiness of a list', () => {
     const list = new LinkedList(10);
     expect(list.empty).toBeTruthy();
     list.push(1);
@@ -98,7 +98,7 @@ describe("LinkedList", () => {
     expect(list.empty).toBeTruthy();
   });
 
-  it("should indicate the fullness of a list", () => {
+  it('should indicate the fullness of a list', () => {
     const list = new LinkedList(10);
     expect(list.full).toBeFalsy();
     for (let i = 0; i < 10; ++i) {
@@ -109,8 +109,8 @@ describe("LinkedList", () => {
     expect(list.full).toBeFalsy();
   });
 
-  describe("shift", () => {
-    it("should shift", () => {
+  describe('shift', () => {
+    it('should shift', () => {
       const list = new LinkedList(5);
       list.push(1);
       list.push(2);
@@ -121,14 +121,14 @@ describe("LinkedList", () => {
       rolling(list, [2, 3, 4, empty, empty]);
     });
 
-    it("should return undefined if the list is empty", () => {
+    it('should return undefined if the list is empty', () => {
       const list = new LinkedList(10);
       expect(list.shift()).toBeUndefined();
     });
   });
 
-  describe("unshift", () => {
-    it("should unshift", () => {
+  describe('unshift', () => {
+    it('should unshift', () => {
       const list = new LinkedList(5);
       list.push(1);
       list.push(2);
@@ -137,24 +137,24 @@ describe("LinkedList", () => {
       rolling(list, [0, 1, 2, empty, empty]);
     });
 
-    it("should unshift into an empty list", () => {
+    it('should unshift into an empty list', () => {
       const list = new LinkedList(5);
       list.unshift(0);
       expect(list.length).toEqual(1);
       rolling(list, [0, empty, empty, empty, empty]);
     });
 
-    it("should prevent unshifting into a full list", () => {
+    it('should prevent unshifting into a full list', () => {
       const list = new LinkedList(10);
       for (let i = 0; i < 10; ++i) {
         list.push(1);
       }
-      expect(() => list.unshift(0)).toThrow(new IllegalStateException("Full"));
+      expect(() => list.unshift(0)).toThrow(new IllegalStateException('Full'));
     });
   });
 
-  describe("pushNode", () => {
-    it("should move a node to the tail", () => {
+  describe('pushNode', () => {
+    it('should move a node to the tail', () => {
       const list = new LinkedList(5);
       list.push(1);
       const n = list.push(2);
@@ -165,7 +165,7 @@ describe("LinkedList", () => {
       rolling(list, [1, 3, 4, 2, empty]);
     });
 
-    it("should be correct if the head is moved", () => {
+    it('should be correct if the head is moved', () => {
       const list = new LinkedList(5);
       const n = list.push(1);
       list.push(2);
@@ -175,7 +175,7 @@ describe("LinkedList", () => {
       rolling(list, [2, 3, 1, empty, empty]);
     });
 
-    it("should be correct if the tail is moved", () => {
+    it('should be correct if the tail is moved', () => {
       const list = new LinkedList(5);
       list.push(1);
       list.push(2);
@@ -186,8 +186,8 @@ describe("LinkedList", () => {
     });
   });
 
-  describe("unshiftNode", () => {
-    it("should move a node to the head", () => {
+  describe('unshiftNode', () => {
+    it('should move a node to the head', () => {
       const list = new LinkedList(5);
       list.push(1);
       const n = list.push(2);
@@ -197,7 +197,7 @@ describe("LinkedList", () => {
       rolling(list, [2, 1, 3, empty, empty]);
     });
 
-    it("should be correct if the head is moved", () => {
+    it('should be correct if the head is moved', () => {
       const list = new LinkedList(5);
       const n = list.push(1);
       list.push(2);
@@ -207,7 +207,7 @@ describe("LinkedList", () => {
       rolling(list, [1, 2, 3, empty, empty]);
     });
 
-    it("should be correct if the tail is moved", () => {
+    it('should be correct if the tail is moved', () => {
       const list = new LinkedList(5);
       list.push(1);
       list.push(2);
@@ -218,8 +218,8 @@ describe("LinkedList", () => {
     });
   });
 
-  describe("removeNode", () => {
-    it("should remove a node", () => {
+  describe('removeNode', () => {
+    it('should remove a node', () => {
       const list = new LinkedList(5);
       list.push(1);
       const n = list.push(2);
@@ -229,7 +229,7 @@ describe("LinkedList", () => {
       rolling(list, [1, 3, empty, empty, empty]);
     });
 
-    it("should be correct if the head is removed", () => {
+    it('should be correct if the head is removed', () => {
       const list = new LinkedList(5);
       const n = list.push(1);
       list.push(2);
@@ -239,7 +239,7 @@ describe("LinkedList", () => {
       rolling(list, [2, 3, empty, empty, empty]);
     });
 
-    it("should be correct if the tail is removed", () => {
+    it('should be correct if the tail is removed', () => {
       const list = new LinkedList(5);
       list.push(1);
       list.push(2);
@@ -250,8 +250,8 @@ describe("LinkedList", () => {
     });
   });
 
-  describe("clear", () => {
-    it("should clear a list, but keeping the old values", () => {
+  describe('clear', () => {
+    it('should clear a list, but keeping the old values', () => {
       const list = new LinkedList(5);
       list.push(1);
       list.push(2);
@@ -263,7 +263,7 @@ describe("LinkedList", () => {
       rolling(list, [1, 2, 3, empty, empty]);
     });
 
-    it("should clear a list and pop all the values", () => {
+    it('should clear a list and pop all the values', () => {
       const list = new LinkedList(5);
       list.push(1);
       list.push(2);
@@ -276,7 +276,7 @@ describe("LinkedList", () => {
     });
   });
 
-  it("should return an array from a list", () => {
+  it('should return an array from a list', () => {
     const list = new LinkedList(5);
     let a = list.toArray();
     expect(a).toBeInstanceOf(Array);
@@ -290,11 +290,11 @@ describe("LinkedList", () => {
     expect(a).toStrictEqual([1, 2, 3]);
   });
 
-  it("should provide an iterator", () => {
+  it('should provide an iterator', () => {
     const list = new LinkedList(5);
     expect(list[Symbol.iterator]).toBeInstanceOf(Function);
     for (const a of list) {
-      throw new Error("it should be empty");
+      throw new Error('it should be empty');
     }
     list.push(1);
     for (const a of list) {
@@ -307,8 +307,8 @@ describe("LinkedList", () => {
     }
   });
 
-  describe("resizing", () => {
-    it("should resize a list", () => {
+  describe('resizing', () => {
+    it('should resize a list', () => {
       const list = new LinkedList(5);
       list.push(1);
       list.push(2);
@@ -319,7 +319,7 @@ describe("LinkedList", () => {
       rolling(list, [1, 2, 3, empty, empty, empty, empty, empty]);
     });
 
-    it("should work if the size is lower than the max but greater than the length", () => {
+    it('should work if the size is lower than the max but greater than the length', () => {
       const list = new LinkedList(5);
       list.push(1);
       list.push(2);
@@ -332,7 +332,7 @@ describe("LinkedList", () => {
       rolling(list, [1, 2, 3, empty]);
     });
 
-    it("should work if the size is lower than the max and lower than the length", () => {
+    it('should work if the size is lower than the max and lower than the length', () => {
       const list = new LinkedList(5);
       list.push(1);
       list.push(2);
@@ -346,7 +346,7 @@ describe("LinkedList", () => {
       rolling(list, [1, 2]);
     });
 
-    it("should work if the size is lower than the max and equal to the length", () => {
+    it('should work if the size is lower than the max and equal to the length', () => {
       const list = new LinkedList(5);
       list.push(1);
       list.push(2);
@@ -359,7 +359,7 @@ describe("LinkedList", () => {
       rolling(list, [1, 2, 3]);
     });
 
-    it("should work if actually there is no resizing", () => {
+    it('should work if actually there is no resizing', () => {
       const list = new LinkedList(5);
       list.push(1);
       list.push(2);
@@ -372,8 +372,8 @@ describe("LinkedList", () => {
       rolling(list, [1, 2, 3, empty, empty]);
     });
 
-    describe("autoresize", () => {
-      it("should do autoresizing if the size is not provided", () => {
+    describe('autoresize', () => {
+      it('should do autoresizing if the size is not provided', () => {
         const list = new LinkedList();
         expect(list.maxLength).toEqual(16); // the default value
         for (let i = 0; i < 16; ++i) {
@@ -383,7 +383,10 @@ describe("LinkedList", () => {
         list.push(16);
         expect(list.length).toEqual(17);
         expect(list.maxLength).toEqual(32); // x2
-        rolling(list, [...new Array(list.maxLength)].map((_, i) => i > 16 ? empty : i));
+        rolling(
+          list,
+          [...new Array(list.maxLength)].map((_, i) => (i > 16 ? empty : i)),
+        );
         for (let i = 0; i < 15; ++i) {
           list.push(17 + i);
         }
@@ -391,11 +394,14 @@ describe("LinkedList", () => {
         list.push(32);
         expect(list.length).toEqual(33);
         expect(list.maxLength).toEqual(64); // x2
-        rolling(list, [...new Array(list.maxLength)].map((_, i) => i > 32 ? empty : i));
+        rolling(
+          list,
+          [...new Array(list.maxLength)].map((_, i) => (i > 32 ? empty : i)),
+        );
       });
 
-      describe("pop", () => {
-        it("should resize when length < maxLength / 2", () => {
+      describe('pop', () => {
+        it('should resize when length < maxLength / 2', () => {
           const list = new LinkedList();
           for (let i = 0; i < 100; ++i) {
             list.push(i);
@@ -427,7 +433,7 @@ describe("LinkedList", () => {
           expect(list.maxLength).toEqual(LinkedList.DEFAULT_LENGTH);
         });
 
-        it("should do nothing if autoresize is disabled", () => {
+        it('should do nothing if autoresize is disabled', () => {
           const list = new LinkedList(128);
           for (let i = 0; i < 100; ++i) {
             list.push(i);
@@ -446,8 +452,8 @@ describe("LinkedList", () => {
         });
       });
 
-      describe("shift", () => {
-        it("should resize when length < maxLength / 2", () => {
+      describe('shift', () => {
+        it('should resize when length < maxLength / 2', () => {
           const list = new LinkedList();
           for (let i = 0; i < 100; ++i) {
             list.push(i);
@@ -461,7 +467,7 @@ describe("LinkedList", () => {
           expect(list.maxLength).toEqual(64);
         });
 
-        it("should stop resizing when length < DEFAULT_LENGTH", () => {
+        it('should stop resizing when length < DEFAULT_LENGTH', () => {
           const list = new LinkedList();
           for (let i = 0; i < 100; ++i) {
             list.push(i);
@@ -479,7 +485,7 @@ describe("LinkedList", () => {
           expect(list.maxLength).toEqual(LinkedList.DEFAULT_LENGTH);
         });
 
-        it("should do nothing if autoresize is disabled", () => {
+        it('should do nothing if autoresize is disabled', () => {
           const list = new LinkedList(128);
           for (let i = 0; i < 100; ++i) {
             list.push(i);
@@ -498,8 +504,8 @@ describe("LinkedList", () => {
         });
       });
 
-      describe("removeNode", () => {
-        it("should resize when the tail node is removed", () => {
+      describe('removeNode', () => {
+        it('should resize when the tail node is removed', () => {
           const tailNodes: any[] = [];
           const list = new LinkedList();
           for (let i = 0; i < 100; ++i) {
@@ -514,7 +520,7 @@ describe("LinkedList", () => {
           expect(list.maxLength).toEqual(64);
         });
 
-        it("should do nothing if autoresize is disabled", () => {
+        it('should do nothing if autoresize is disabled', () => {
           const tailNodes: any[] = [];
           const list = new LinkedList(128);
           for (let i = 0; i < 100; ++i) {
@@ -530,8 +536,8 @@ describe("LinkedList", () => {
         });
       });
 
-      describe("clear", () => {
-        it("should set maxLength to DEFAULT_LENGTH", () => {
+      describe('clear', () => {
+        it('should set maxLength to DEFAULT_LENGTH', () => {
           const list = new LinkedList();
           for (let i = 0; i < 100; ++i) {
             list.push(i);
@@ -541,7 +547,7 @@ describe("LinkedList", () => {
           expect(list.maxLength).toEqual(LinkedList.DEFAULT_LENGTH);
         });
 
-        it("should do nothing if autoresize is disabled", () => {
+        it('should do nothing if autoresize is disabled', () => {
           const list = new LinkedList(128);
           for (let i = 0; i < 100; ++i) {
             list.push(i);
@@ -554,8 +560,8 @@ describe("LinkedList", () => {
     });
   });
 
-  describe("front", () => {
-    it("should get the head", () => {
+  describe('front', () => {
+    it('should get the head', () => {
       const list = new LinkedList();
       list.push(1);
       expect(list.front).toEqual(1);
@@ -563,14 +569,14 @@ describe("LinkedList", () => {
       expect(list.front).toEqual(1);
     });
 
-    it("should throw an error if the list is empty", () => {
+    it('should throw an error if the list is empty', () => {
       const list = new LinkedList();
       expect(() => list.front).toThrow();
     });
   });
 
-  describe("back", () => {
-    it("should get the last element", () => {
+  describe('back', () => {
+    it('should get the last element', () => {
       const list = new LinkedList();
       list.push(1);
       expect(list.back).toEqual(1);
@@ -578,14 +584,14 @@ describe("LinkedList", () => {
       expect(list.back).toEqual(2);
     });
 
-    it("should throw an error if the list is empty", () => {
+    it('should throw an error if the list is empty', () => {
       const list = new LinkedList();
       expect(() => list.back).toThrow();
     });
   });
 
-  describe("nextNode", () => {
-    it("should return the next node", () => {
+  describe('nextNode', () => {
+    it('should return the next node', () => {
       const list = new LinkedList();
       const a = list.push(1);
       const b = list.push(2);
@@ -594,27 +600,27 @@ describe("LinkedList", () => {
       expect(list.nextNode(b)).toEqual(c);
     });
 
-    it("should return the first node without any argument", () => {
+    it('should return the first node without any argument', () => {
       const list = new LinkedList();
       const a = list.push(1);
       expect(list.nextNode()).toEqual(a);
     });
 
-    it("should return null if this is the end", () => {
+    it('should return null if this is the end', () => {
       const list = new LinkedList();
       list.push(1);
       const b = list.push(2);
       expect(list.nextNode(b)).toBeNull();
     });
 
-    it("should return null there are no elements", () => {
+    it('should return null there are no elements', () => {
       const list = new LinkedList();
       expect(list.nextNode()).toBeNull();
     });
   });
 
-  describe("forEach", () => {
-    it("should invoke a callback for each element", () => {
+  describe('forEach', () => {
+    it('should invoke a callback for each element', () => {
       const t: any[] = [];
       const a = new LinkedList();
       a.push(1);
@@ -624,23 +630,27 @@ describe("LinkedList", () => {
       expect(t).toStrictEqual([1, 2, 3]);
     });
 
-    it("should pass the index as the second argument", () => {
+    it('should pass the index as the second argument', () => {
       const t: any[] = [];
       const a = new LinkedList();
       a.push(1);
       a.push(2);
       a.push(3);
       a.forEach((...args) => t.push(args));
-      expect(t).toStrictEqual([[1, 0], [2, 1], [3, 2]]);
+      expect(t).toStrictEqual([
+        [1, 0],
+        [2, 1],
+        [3, 2],
+      ]);
     });
 
-    it("should not call the callback for an empty list", () => {
+    it('should not call the callback for an empty list', () => {
       const s = jest.fn();
       new LinkedList().forEach(s);
       expect(s.mock.calls.length).toEqual(0);
     });
 
-    it("should stop iterating if the given function returns false", () => {
+    it('should stop iterating if the given function returns false', () => {
       const t: any[] = [];
       const a = new LinkedList();
       a.push(1);
@@ -655,7 +665,7 @@ describe("LinkedList", () => {
       expect(t).toStrictEqual([1, 2]);
     });
 
-    it("should not stop iterating if the given function returns falsy value but not false", () => {
+    it('should not stop iterating if the given function returns falsy value but not false', () => {
       const t: any[] = [];
       const a = new LinkedList();
       a.push(1);
@@ -665,18 +675,17 @@ describe("LinkedList", () => {
       a.push(5);
       a.push(6);
       a.push(7);
-      const returnValues = [null, undefined, 0, "", false];
+      const returnValues = [null, undefined, 0, '', false];
       a.forEach((e) => {
         t.push(e);
         return returnValues.shift();
-
       });
       expect(t).toStrictEqual([1, 2, 3, 4, 5]);
     });
   });
 
-  describe("map", () => {
-    it("should map a list", () => {
+  describe('map', () => {
+    it('should map a list', () => {
       const a = new LinkedList();
       a.push(1);
       a.push(2);
@@ -684,7 +693,7 @@ describe("LinkedList", () => {
       expect(a.map((e) => e + 1).toArray()).toStrictEqual([2, 3, 4]);
     });
 
-    it("should pass the index as the second element", () => {
+    it('should pass the index as the second element', () => {
       const a = new LinkedList();
       a.push(1);
       a.push(2);
@@ -698,16 +707,16 @@ describe("LinkedList", () => {
       expect(i).toEqual(3);
     });
 
-    it("should not call the callback for an empty list", () => {
+    it('should not call the callback for an empty list', () => {
       const s = jest.fn();
       new LinkedList().map(s);
       expect(s.mock.calls.length).toEqual(0);
     });
   });
 
-  describe("iterator", () => {
-    describe("remove", () => {
-      it("should remove node from the front", () => {
+  describe('iterator', () => {
+    describe('remove', () => {
+      it('should remove node from the front', () => {
         const a = new LinkedList();
         a.push(1);
         a.push(2);
@@ -721,7 +730,7 @@ describe("LinkedList", () => {
         expect([...a]).toStrictEqual([2, 3, 4, 5]);
       });
 
-      it("should remove node from the middle", () => {
+      it('should remove node from the middle', () => {
         const a = new LinkedList();
         a.push(1);
         a.push(2);
@@ -739,7 +748,7 @@ describe("LinkedList", () => {
         expect([...a]).toStrictEqual([1, 2, 4, 5]);
       });
 
-      it("should remove node from the back", () => {
+      it('should remove node from the back', () => {
         const a = new LinkedList();
         a.push(1);
         a.push(2);
@@ -758,8 +767,8 @@ describe("LinkedList", () => {
       });
     });
 
-    describe("reset", () => {
-      it("should reset the iterator", () => {
+    describe('reset', () => {
+      it('should reset the iterator', () => {
         const a = new LinkedList();
         a.push(1);
         a.push(2);

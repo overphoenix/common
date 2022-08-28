@@ -1,9 +1,8 @@
-import { clone } from "../../lib";
+import { clone } from '../../lib';
 
-describe("clone", () => {
-  
-  describe("objects", () => {
-    it("not deep", () => {
+describe('clone', () => {
+  describe('objects', () => {
+    it('not deep', () => {
       const s = { a: 1, b: { a: 1 } };
       const t = clone(s, { deep: false });
       expect(t).toEqual(s);
@@ -12,7 +11,7 @@ describe("clone", () => {
       expect(t.b).toEqual(s.b);
     });
 
-    it("deep", () => {
+    it('deep', () => {
       const s = { a: 1, b: { a: 1 } };
       const t = clone(s, { deep: true });
       expect(t).toEqual(s);
@@ -22,9 +21,9 @@ describe("clone", () => {
     });
   });
 
-  describe("arrays", () => {
-    describe("inside objects", () => {
-      it("not deep", () => {
+  describe('arrays', () => {
+    describe('inside objects', () => {
+      it('not deep', () => {
         const s = { a: [1, 2, 3] };
         const t = clone(s, { deep: false });
         expect(t).toEqual(s);
@@ -32,7 +31,7 @@ describe("clone", () => {
         expect(t.a).toEqual(s.a);
       });
 
-      it("deep", () => {
+      it('deep', () => {
         const s = { a: [1, 2, 3] };
         const t = clone(s, { deep: true });
         expect(t).toEqual(s);
@@ -42,7 +41,7 @@ describe("clone", () => {
       });
     });
 
-    it("not deep", () => {
+    it('not deep', () => {
       const s = [1, 2, [1, 2, 3]];
       const t = clone(s, { deep: false });
       expect(t).not.toBe(s);
@@ -51,7 +50,7 @@ describe("clone", () => {
       expect(t).toEqual(s);
     });
 
-    it("deep", () => {
+    it('deep', () => {
       const s: any[] = [1, 2, [1, 2, 3]];
       const t = clone(s, { deep: true });
       expect(t).not.toBe(s);
@@ -61,15 +60,15 @@ describe("clone", () => {
     });
   });
 
-  it("should set deep = true by default", () => {
+  it('should set deep = true by default', () => {
     const s = { a: { b: { c: 1 } } };
     const t = clone(s);
     expect(t).toEqual(s);
     t.a.b.d = 2;
-    expect(s.a.b).not.toHaveProperty("d");
+    expect(s.a.b).not.toHaveProperty('d');
   });
 
-  it("should clone a date object", () => {
+  it('should clone a date object', () => {
     const d = new Date(123123);
     const s = { a: d };
     const t = clone(s);
@@ -79,8 +78,8 @@ describe("clone", () => {
     expect(t.a.getTime()).not.toEqual(d.getTime());
   });
 
-  it("should clone a buffer object", () => {
-    const b = Buffer.from("hello");
+  it('should clone a buffer object', () => {
+    const b = Buffer.from('hello');
     const s = { a: b };
     const t = clone(s);
     expect(t.a).toEqual(b);
@@ -88,30 +87,30 @@ describe("clone", () => {
     expect(t.a).not.toEqual(b);
   });
 
-  it("should not clone non-enumerable properies when enumOnly = false", () => {
+  it('should not clone non-enumerable properies when enumOnly = false', () => {
     const s = {};
-    Object.defineProperty(s, "a", {
+    Object.defineProperty(s, 'a', {
       enumerable: false,
-      value: 42
+      value: 42,
     });
     const t = clone(s);
     expect(t).toEqual(s);
   });
 
-  it("should clone non-enumerable properies when enumOnly = true", () => {
+  it('should clone non-enumerable properies when enumOnly = true', () => {
     const s = {};
-    Object.defineProperty(s, "a", {
+    Object.defineProperty(s, 'a', {
       enumerable: false,
-      value: 42
+      value: 42,
     });
     const t = clone(s, { enumOnly: false });
     expect(t).toEqual({ a: 42 });
   });
 
-  it("should not touch non-plain objects", () => {
+  it('should not touch non-plain objects', () => {
     class Thing {
       say() {
-        console.log("hello");
+        console.log('hello');
       }
     }
     const thing = new Thing();
@@ -120,7 +119,7 @@ describe("clone", () => {
     expect(t.a.b[0]).toEqual(thing);
   });
 
-  it("should try to clone non-plain objects when nonPlainObject = true", () => {
+  it('should try to clone non-plain objects when nonPlainObject = true', () => {
     class Thing {
       property = 42;
     }

@@ -1,4 +1,4 @@
-import { isNil } from "../predicates";
+import { isNil } from '../predicates';
 
 const objectOwnProps = Object.getOwnPropertyNames(Object.getPrototypeOf({}));
 
@@ -41,7 +41,10 @@ const _keys = (obj: any, enumOnly: boolean, followProto: boolean): string[] => {
   return [...props];
 };
 
-export const keys = (obj: any, { enumOnly = true, followProto = false, all = false } = {}) => {
+export const keys = (
+  obj: any,
+  { enumOnly = true, followProto = false, all = false } = {},
+) => {
   if (isNil(obj)) {
     return [];
   }
@@ -54,7 +57,10 @@ export const keys = (obj: any, { enumOnly = true, followProto = false, all = fal
 };
 
 // TODO: tests
-export const values = (obj: any, { enumOnly = true, followProto = false, all = false } = {}) => {
+export const values = (
+  obj: any,
+  { enumOnly = true, followProto = false, all = false } = {},
+) => {
   if (isNil(obj)) {
     return [];
   }
@@ -75,7 +81,10 @@ export const values = (obj: any, { enumOnly = true, followProto = false, all = f
 };
 
 // TODO: tests
-export const entries = (obj: any, { enumOnly = true, followProto = false, all = false } = {}) => {
+export const entries = (
+  obj: any,
+  { enumOnly = true, followProto = false, all = false } = {},
+) => {
   if (isNil(obj)) {
     return [];
   }

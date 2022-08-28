@@ -1,7 +1,12 @@
-
-import { isArray, isNumber, isFunction, isPromise, isUndefined } from "./predicates";
-import { entries } from "./utils";
-import { noop, truly } from "./primitives";
+import {
+  isArray,
+  isNumber,
+  isFunction,
+  isPromise,
+  isUndefined,
+} from './predicates';
+import { entries } from './utils';
+import { noop, truly } from './primitives';
 /**
  * @typedef Deferred
  * @property {Function} resolve
@@ -16,9 +21,9 @@ import { noop, truly } from "./primitives";
  */
 export const defer = () => {
   const defer: {
-    resolve?: Function,
-    reject?: Function,
-    promise?: Promise<any>
+    resolve?: Function;
+    reject?: Function;
+    promise?: Promise<any>;
   } = {};
 
   defer.promise = new Promise((resolve, reject) => {
@@ -37,7 +42,11 @@ export const defer = () => {
  * @param {T} [value] resolving value
  * @returns {Promise<T>}
  */
-export const delay = (ms: number, value?: any, options?: { unref?: boolean }) => {
+export const delay = (
+  ms: number,
+  value?: any,
+  options?: { unref?: boolean },
+) => {
   return new Promise((resolve) => {
     const timer = setTimeout(resolve, ms, value);
     if (options && options.unref) {
@@ -56,33 +65,38 @@ export const delay = (ms: number, value?: any, options?: { unref?: boolean }) =>
  */
 export const timeout = (promise: Promise<any>, ms: number) => {
   if (!isPromise(promise)) {
-    throw new TypeError("The first argument must be a promise");
+    throw new TypeError('The first argument must be a promise');
   }
   return new Promise((resolve, reject) => {
     const timestamp = new Date();
     const timer = setTimeout(() => {
       reject(new Error(`Timeout of ${ms}ms exceeded`));
     }, ms);
-    promise.then((x) => {
-      clearTimeout(timer);
-      if (new Date() - timestamp >= ms) {
-        reject(new Error(`Timeout of ${ms}ms exceeded`));
-      } else {
-        resolve(x);
-      }
-    }, (y) => {
-      clearTimeout(timer);
-      if (new Date() - timestamp >= ms) {
-        const err = new Error(`Timeout of ${ms}ms exceeded`);
-        Object.defineProperty(err, "original", {
-          enumerable: true,
-          value: y
-        });
-        reject(err);
-      } else {
-        reject(y);
-      }
-    });
+    promise.then(
+      (x) => {
+        clearTimeout(timer);
+        // @ts-ignore
+        if (new Date() - timestamp >= ms) {
+          reject(new Error(`Timeout of ${ms}ms exceeded`));
+        } else {
+          resolve(x);
+        }
+      },
+      (y) => {
+        clearTimeout(timer);
+        // @ts-ignore
+        if (new Date() - timestamp >= ms) {
+          const err = new Error(`Timeout of ${ms}ms exceeded`);
+          Object.defineProperty(err, 'original', {
+            enumerable: true,
+            value: y,
+          });
+          reject(err);
+        } else {
+          reject(y);
+        }
+      },
+    );
   });
 };
 
@@ -94,16 +108,19 @@ export const timeout = (promise: Promise<any>, ms: number) => {
  */
 export const nodeify = (promise: Promise<any>, cb: Function) => {
   if (!isPromise(promise)) {
-    throw new TypeError("The first argument must be a promise");
+    throw new TypeError('The first argument must be a promise');
   }
   if (!isFunction(cb)) {
     return promise;
   }
-  promise.then((x) => {
-    cb(null, x);
-  }, (y) => {
-    cb(y);
-  });
+  promise.then(
+    (x) => {
+      cb(null, x);
+    },
+    (y) => {
+      cb(y);
+    },
+  );
   return promise;
 };
 
@@ -115,18 +132,27 @@ export const nodeify = (promise: Promise<any>, cb: Function) => {
  */
 export const callbackify = (fn: Function) => {
   if (!isFunction(fn)) {
-    throw new TypeError("The first argument must be a function");
+    throw new TypeError('The first argument must be a function');
   }
   return function (...args: any[]) {
     if (args.length && isFunction(args[args.length - 1])) {
       const cb = args.pop();
+      // @ts-ignore
       return nodeify(fn.apply(this, args), cb);
     }
+    // @ts-ignore
     return fn.apply(this, args);
   };
 };
 
-const processFn = (fn: Function, context: any, args: any[], multiArgs: boolean, resolve: Function, reject: Function) => {
+const processFn = (
+  fn: Function,
+  context: any,
+  args: any[],
+  multiArgs: boolean,
+  resolve: Function,
+  reject: Function,
+) => {
   if (multiArgs) {
     args.push((...result: any[]) => {
       if (result[0]) {
@@ -155,20 +181,32 @@ const processFn = (fn: Function, context: any, args: any[], multiArgs: boolean, 
  * @param {object} [context] Context to bind to new function
  * @returns {Function}
  */
-export const promisify = (fn: Function, options?: { context?: any, multiArgs?: boolean }) => {
+export const promisify = (
+  fn: Function,
+  options?: { context?: any; multiArgs?: boolean },
+) => {
   if (!isFunction(fn)) {
-    throw new TypeError("The first argument must be a function");
+    throw new TypeError('The first argument must be a function');
   }
 
   return options && options.context
-    ? (...args: any[]) => new Promise((resolve, reject) => {
-      processFn(fn, options.context, args, options && Boolean(options.multiArgs), resolve, reject);
-    })
+    ? (...args: any[]) =>
+        new Promise((resolve, reject) => {
+          processFn(
+            fn,
+            options.context,
+            args,
+            options && Boolean(options.multiArgs),
+            resolve,
+            reject,
+          );
+        })
     : function (...args: any[]) {
-      return new Promise((resolve, reject) => {
-        processFn(fn, this, args, Boolean(options?.multiArgs), resolve, reject);
-      });
-    };
+        return new Promise((resolve, reject) => {
+          // @ts-ignore
+          processFn(fn, this, args, Boolean(options?.multiArgs), resolve, reject);
+        });
+      };
 };
 
 /**
@@ -180,9 +218,13 @@ export const promisify = (fn: Function, options?: { context?: any, multiArgs?: b
  * @param {object} [context] Context to bind to new functions
  * @returns {object} object with promisified functions
  */
-export const promisifyAll = (source: any, options?: { suffix?: string, filter: Function, context?: any }) => {
-  const suffix = options && options.suffix ? options.suffix : "Async";
-  const filter = options && typeof options.filter === "function" ? options.filter : truly;
+export const promisifyAll = (
+  source: any,
+  options?: { suffix?: string; filter: Function; context?: any },
+) => {
+  const suffix = options && options.suffix ? options.suffix : 'Async';
+  const filter =
+    options && typeof options.filter === 'function' ? options.filter : truly;
 
   if (isFunction(source)) {
     return promisify(source, options);
@@ -207,13 +249,18 @@ export const promisifyAll = (source: any, options?: { suffix?: string, filter: F
 const _finally = (promise: Promise<any>, onFinally: Function) => {
   onFinally = onFinally || noop;
 
-  return promise.then((val) => new Promise((resolve) => {
-    resolve(onFinally());
-  }).then(() => val), (err) => new Promise((resolve) => {
-    resolve(onFinally());
-  }).then(() => {
-    throw err;
-  }));
+  return promise.then(
+    (val) =>
+      new Promise((resolve) => {
+        resolve(onFinally());
+      }).then(() => val),
+    (err) =>
+      new Promise((resolve) => {
+        resolve(onFinally());
+      }).then(() => {
+        throw err;
+      }),
+  );
 };
 
 export { _finally as finally };
@@ -223,7 +270,7 @@ export { _finally as finally };
  */
 export const retry = async (callback: Function, options: any) => {
   if (!callback || !options) {
-    throw new Error("requires a callback and an options set or a number");
+    throw new Error('requires a callback and an options set or a number');
   }
 
   if (isNumber(options)) {
@@ -238,7 +285,7 @@ export const retry = async (callback: Function, options: any) => {
     backoffBase: isUndefined(options.backoffBase) ? 100 : options.backoffBase,
     backoffExponent: options.backoffExponent || 1.1,
     report: options.report || null,
-    name: options.name || callback.name || "unknown"
+    name: options.name || callback.name || 'unknown',
   };
 
   // Massage match option into array so we can blindly treat it as such later
@@ -247,10 +294,15 @@ export const retry = async (callback: Function, options: any) => {
   }
 
   if (options.report) {
-    options.report(`Trying ${options.name} #${options.$current} at ${new Date().toLocaleTimeString()}`, options);
+    options.report(
+      `Trying ${options.name} #${
+        options.$current
+      } at ${new Date().toLocaleTimeString()}`,
+      options,
+    );
   }
 
-  for (; ;) {
+  for (;;) {
     try {
       let p = Promise.resolve(callback({ current: options.$current }));
       if (options.timeout) {
@@ -259,7 +311,11 @@ export const retry = async (callback: Function, options: any) => {
       return await p;
     } catch (err: any) {
       if (options.report) {
-        options.report(`Try ${options.name} #${options.$current} failed: ${err.toString()}`, options, err);
+        options.report(
+          `Try ${options.name} #${options.$current} failed: ${err.toString()}`,
+          options,
+          err,
+        );
       }
       let shouldRetry = options.$current < options.max;
       if (shouldRetry && options.match.length && err) {
@@ -270,12 +326,11 @@ export const retry = async (callback: Function, options: any) => {
           }
 
           if (
-            match === err.toString()
-            || match === err.message
-            || (isFunction(match) && err instanceof match)
-            || (
-              match instanceof RegExp && (match.test(err.message) || match.test(err.toString()))
-            )
+            match === err.toString() ||
+            match === err.message ||
+            (isFunction(match) && err instanceof match) ||
+            (match instanceof RegExp &&
+              (match.test(err.message) || match.test(err.toString())))
           ) {
             shouldRetry = true;
           }
@@ -287,11 +342,17 @@ export const retry = async (callback: Function, options: any) => {
         throw err;
       }
 
-      const retryDelay = Math.pow(options.backoffBase, Math.pow(options.backoffExponent, (options.$current - 1)));
+      const retryDelay = Math.pow(
+        options.backoffBase,
+        Math.pow(options.backoffExponent, options.$current - 1),
+      );
       options.$current++;
       if (retryDelay) {
         if (options.report) {
-          options.report(`Delaying retry of ${options.name} by ${retryDelay}`, options);
+          options.report(
+            `Delaying retry of ${options.name} by ${retryDelay}`,
+            options,
+          );
         }
         await delay(retryDelay);
       }
@@ -301,38 +362,42 @@ export const retry = async (callback: Function, options: any) => {
 
 export const props = async (obj: any) => {
   const result = {};
-  await Promise.all(Object.keys(obj).map(async (key) => {
-    Object.defineProperty(result, key, {
-      enumerable: true,
-      value: await obj[key]
-    });
-  }));
+  await Promise.all(
+    Object.keys(obj).map(async (key) => {
+      Object.defineProperty(result, key, {
+        enumerable: true,
+        value: await obj[key],
+      });
+    }),
+  );
   return result;
 };
 
-
-const try_ = (fn: Function, ...args: any[]) => new Promise((resolve) => {
-  resolve(fn(...args));
-});
+const try_ = (fn: Function, ...args: any[]) =>
+  new Promise((resolve) => {
+    resolve(fn(...args));
+  });
 
 export { try_ as try };
 
-
 export const universalify = (fn: Function) => {
-  const props = {
+  const props: any = {
     name: {
-      value: fn.name
+      value: fn.name,
     },
     ...Object.keys(fn).reduce((props, k) => {
+      // @ts-ignore
       props[k] = {
         enumerable: true,
-        value: fn[k]
+        // @ts-ignore
+        value: fn[k],
       };
       return props;
-    }, {})
+    }, {}),
   };
   return Object.defineProperties(function (...args: any[]) {
     if (isFunction(args[args.length - 1])) {
+      // @ts-ignore
       fn.apply(this, args);
     } else {
       return new Promise((resolve, reject) => {
@@ -342,6 +407,7 @@ export const universalify = (fn: Function) => {
           }
           resolve(res);
         });
+        // @ts-ignore
         fn.apply(this, args);
       });
     }
@@ -349,11 +415,17 @@ export const universalify = (fn: Function) => {
 };
 
 export const universalifyFromPromise = (fn: Function) => {
-  return Object.defineProperty(function (...args: any[]) {
-    const cb = args[args.length - 1];
-    if (!isFunction(cb)) {
-      return fn.apply(this, args);
-    }
-    fn.apply(this, args).then((r: any) => cb(null, r), cb);
-  }, "name", { value: fn.name });
+  return Object.defineProperty(
+    function (...args: any[]) {
+      const cb = args[args.length - 1];
+      if (!isFunction(cb)) {
+        // @ts-ignore
+        return fn.apply(this, args);
+      }
+      // @ts-ignore
+      fn.apply(this, args).then((r: any) => cb(null, r), cb);
+    },
+    'name',
+    { value: fn.name },
+  );
 };

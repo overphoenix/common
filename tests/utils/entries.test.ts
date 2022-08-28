@@ -1,28 +1,28 @@
-import { keys } from "../../lib";
-import { inherits } from "util";
-const noop = () => { };
+import { keys } from '../../lib';
+import { inherits } from 'util';
+const noop = () => {};
 
-test("should be empty array for an empty object", () => {
+test('should be empty array for an empty object', () => {
   const props = keys({});
   expect(props).toEqual([]);
 });
 
-test("should return all the properies of an object", () => {
+test('should return all the properies of an object', () => {
   const props = keys({ a: 1, b: 2, c: 3, d: () => 4, e: { f: 5 } });
-  expect(props).toEqual(["a", "b", "c", "d", "e"]);
+  expect(props).toEqual(['a', 'b', 'c', 'd', 'e']);
 });
 
-test("should work with classic classes", () => {
+test('should work with classic classes', () => {
   function Test() {
     this.a = 2;
   }
   Test.prototype.b = noop;
   const t = new Test();
   const props = keys(t, { followProto: true });
-  expect(props).toEqual(["a", "b"]);
+  expect(props).toEqual(['a', 'b']);
 });
 
-test("should work with classic class inheritance", () => {
+test('should work with classic class inheritance', () => {
   function A() {
     this.aProp = 1;
   }
@@ -36,10 +36,10 @@ test("should work with classic class inheritance", () => {
   B.prototype.bMethod = noop;
   const t = new B();
   const props = keys(t, { followProto: true }).sort();
-  expect(props).toStrictEqual(["aMethod", "aProp", "bMethod", "bProp"]);
+  expect(props).toStrictEqual(['aMethod', 'aProp', 'bMethod', 'bProp']);
 });
 
-test("should work with classes", () => {
+test('should work with classes', () => {
   class Test {
     public a = 2;
 
@@ -49,27 +49,23 @@ test("should work with classes", () => {
   }
   const t = new Test();
   const props = keys(t, { all: true });
-  expect(props).toEqual(["a", "b"]);
+  expect(props).toEqual(['a', 'b']);
 });
 
-test("should work with class inheritance", () => {
+test('should work with class inheritance', () => {
   class A {
     public aProp = 1;
 
-    aMethod() {
-
-    }
+    aMethod() {}
   }
 
   class B extends A {
     public bProp = 2;
 
-    bMethod() {
-
-    }
+    bMethod() {}
   }
 
   const t = new B();
   const props = keys(t, { all: true }).sort();
-  expect(props).toStrictEqual(["aMethod", "aProp", "bMethod", "bProp"]);
+  expect(props).toStrictEqual(['aMethod', 'aProp', 'bMethod', 'bProp']);
 });

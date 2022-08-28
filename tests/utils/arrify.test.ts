@@ -1,7 +1,7 @@
-import { arrify } from "../../lib";
+import { arrify } from '../../lib';
 
-describe("arrify", () => {
-  it("no args", () => {
+describe('arrify', () => {
+  it('no args', () => {
     expect(arrify()).toHaveLength(0);
   });
 
@@ -13,7 +13,7 @@ describe("arrify", () => {
     expect(arrify(null)).toEqual([null]);
   });
 
-  it("array as argument", () => {
+  it('array as argument', () => {
     expect(arrify([1, 2, 3])).toEqual([1, 2, 3]);
   });
 });

@@ -1,8 +1,8 @@
-import { falsely } from "../primitives";
-import { isArray, isFunction, isObject, isString } from "../predicates";
-import { typeOf } from "../typeof";
-import { keys } from "./entries";
-import { InvalidArgumentException } from "../error";
+import { falsely } from '../primitives';
+import { isArray, isFunction, isObject, isString } from '../predicates';
+import { typeOf } from '../typeof';
+import { keys } from './entries';
+import { InvalidArgumentException } from '../error';
 
 export const omit = (obj?: any, props?: any) => {
   if (!isObject(obj)) {
@@ -21,11 +21,13 @@ export const omit = (obj?: any, props?: any) => {
   } else if (!props) {
     isShouldOmit = falsely;
   } else {
-    throw new InvalidArgumentException(`Unsupported type of 'props': ${typeOf(props)}`);
+    throw new InvalidArgumentException(
+      `Unsupported type of 'props': ${typeOf(props)}`,
+    );
   }
 
   const list = keys(obj, {
-    enumOnly: false
+    enumOnly: false,
   });
 
   const result = {};

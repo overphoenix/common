@@ -1,5 +1,5 @@
-import { isString } from "../predicates";
-import { delay } from "../promise";
+import { isString } from '../predicates';
+import { delay } from '../promise';
 
 const getMilliseconds = function () {
   const hrtime = process.hrtime();
@@ -16,25 +16,30 @@ class TokenBucket {
 
   private lastDrip = Number(new Date());
 
-  constructor(public bucketSize = 1, public tokensPerInterval = 1, interval: number | string = 1000, public parentBucket?: TokenBucket) {
+  constructor(
+    public bucketSize = 1,
+    public tokensPerInterval = 1,
+    interval: number | string = 1000,
+    public parentBucket?: TokenBucket,
+  ) {
     if (isString(interval)) {
       switch (interval) {
-        case "sec":
-        case "second": {
+        case 'sec':
+        case 'second': {
           this._interval = 1000;
           break;
         }
-        case "min":
-        case "minute": {
+        case 'min':
+        case 'minute': {
           this._interval = 1000 * 60;
           break;
         }
-        case "hr":
-        case "hour": {
+        case 'hr':
+        case 'hour': {
           this._interval = 1000 * 60 * 60;
           break;
         }
-        case "day": {
+        case 'day': {
           this._interval = 1000 * 60 * 60 * 24;
           break;
         }
@@ -42,7 +47,7 @@ class TokenBucket {
           throw new Error(`Invaid interval ${interval}`);
       }
     } else {
-      this._interval = typeof interval === "number" ? interval : 1000;
+      this._interval = typeof interval === 'number' ? interval : 1000;
     }
   }
 
@@ -51,7 +56,9 @@ class TokenBucket {
   }
 
   private _waitInterval(count) {
-    return Math.ceil((count - this.content) * (this._interval / this.tokensPerInterval));
+    return Math.ceil(
+      (count - this.content) * (this._interval / this.tokensPerInterval),
+    );
   }
 
   async removeTokens(count: number) {
@@ -62,7 +69,9 @@ class TokenBucket {
 
     // Make sure the bucket can hold the requested number of tokens
     if (count > this.bucketSize) {
-      throw new RangeError(`Requested tokens ${count} exceeds bucket size ${this.bucketSize}`);
+      throw new RangeError(
+        `Requested tokens ${count} exceeds bucket size ${this.bucketSize}`,
+      );
     }
 
     // Drip new tokens into this bucket
@@ -151,8 +160,16 @@ export class RateLimiter {
 
   private curIntervalStart = getMilliseconds();
 
-  constructor(tokensPerInterval = 1, interval = 1000, private fireImmediately = false) {
-    this.tokenBucket = new TokenBucket(tokensPerInterval, tokensPerInterval, interval);
+  constructor(
+    tokensPerInterval = 1,
+    interval = 1000,
+    private fireImmediately = false,
+  ) {
+    this.tokenBucket = new TokenBucket(
+      tokensPerInterval,
+      tokensPerInterval,
+      interval,
+    );
 
     // Fill the token bucket to start
     this.tokenBucket.content = tokensPerInterval;
@@ -161,7 +178,9 @@ export class RateLimiter {
   async removeTokens(count) {
     // Make sure the request isn't for more than we can handle
     if (count > this.tokenBucket.bucketSize) {
-      throw new RangeError(`Requested tokens ${count} exceeds maximum tokens per interval ${this.tokenBucket.bucketSize}`);
+      throw new RangeError(
+        `Requested tokens ${count} exceeds maximum tokens per interval ${this.tokenBucket.bucketSize}`,
+      );
     }
 
     const now = getMilliseconds();
@@ -177,7 +196,9 @@ export class RateLimiter {
       if (this.fireImmediately) {
         return -1;
       }
-      const waitInterval = Math.ceil(this.curIntervalStart + this.tokenBucket.interval - now);
+      const waitInterval = Math.ceil(
+        this.curIntervalStart + this.tokenBucket.interval - now,
+      );
       await delay(waitInterval);
     }
 

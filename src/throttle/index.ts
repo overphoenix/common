@@ -1,14 +1,13 @@
-import { RateLimiter } from "./rate_limiter";
-import { isNull, isFunction, isNumber, isPromise } from "../predicates";
-import { LinkedList } from "../linked_list";
+import { RateLimiter } from './rate_limiter';
+import { isNull, isFunction, isNumber, isPromise } from '../predicates';
+import { LinkedList } from '../linked_list';
 
-const DROPPED = Symbol("DROPPED");
+const DROPPED = Symbol('DROPPED');
 
 class Delayed {
   public cancelled = false;
 
-  constructor(public resolve, public fn, public self, public args) {
-  }
+  constructor(public resolve, public fn, public self, public args) {}
 
   cancel() {
     this.cancelled = true;
@@ -28,7 +27,8 @@ const throttleNoInterval = (concurrency, drop, dropLast, fn, onDone) => {
       let result;
 
       // TODO: ???
-      if (fn.length === 1) { // with callback
+      if (fn.length === 1) {
+        // with callback
         result = fn.call(self, release, ...args);
       } else {
         result = fn.apply(self, args);
@@ -81,7 +81,7 @@ const throttleNoInterval = (concurrency, drop, dropLast, fn, onDone) => {
   }
   return function (fn, ...args) {
     if (!isFunction(fn)) {
-      throw new TypeError("The first argument must be a function");
+      throw new TypeError('The first argument must be a function');
     }
     return run(fn, this, args);
   };
@@ -94,11 +94,19 @@ const throttle = function (fn, opts = {}) {
   if (isNumber(opts)) {
     opts = { concurrency: opts };
   }
-  const { concurrency = 1, interval = 0, ordered = true, waitForReturn = true, drop = false, dropLast = true, onDone } = opts;
+  const {
+    concurrency = 1,
+    interval = 0,
+    ordered = true,
+    waitForReturn = true,
+    drop = false,
+    dropLast = true,
+    onDone,
+  } = opts;
 
   // Just for fun
   if (concurrency === Infinity) {
-    throw new TypeError("Infinite concurrency is not allowed");
+    throw new TypeError('Infinite concurrency is not allowed');
   }
 
   if (!interval) {
@@ -170,8 +178,4 @@ const throttle = function (fn, opts = {}) {
   };
 };
 
-export {
-  throttle,
-  RateLimiter,
-  DROPPED
-}
+export { throttle, RateLimiter, DROPPED };

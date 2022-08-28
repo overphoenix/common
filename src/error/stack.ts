@@ -10,7 +10,7 @@ export const get = function (belowFn) {
   };
   Error.captureStackTrace(dummyObject, belowFn || exports.get);
 
-  const v8StackTrace = dummyObject["stack"];
+  const v8StackTrace = dummyObject['stack'];
   Error.prepareStackTrace = v8Handler;
   Error.stackTraceLimit = oldLimit;
 
@@ -23,7 +23,7 @@ export const parse = function (err) {
   }
 
   const self = this;
-  const lines = err.stack.split("\n").slice(1);
+  const lines = err.stack.split('\n').slice(1);
 
   return lines
     .map((line: string) => {
@@ -35,32 +35,34 @@ export const parse = function (err) {
           typeName: null,
           methodName: null,
           columnNumber: null,
-          native: null
+          native: null,
         });
       }
 
-      const lineMatch = line.match(/at (?:(.+)\s+\()?(?:(.+?):(\d+)(?::(\d+))?|([^)]+))\)?/);
+      const lineMatch = line.match(
+        /at (?:(.+)\s+\()?(?:(.+?):(\d+)(?::(\d+))?|([^)]+))\)?/,
+      );
       if (!lineMatch) {
         return;
       }
 
-      let object: string = "";
-      let method: string = "";
+      let object: string = '';
+      let method: string = '';
       let functionName: null | string = null;
       let typeName: null | string = null;
       let methodName: null | string = null;
-      const isNative = (lineMatch[5] === "native");
+      const isNative = lineMatch[5] === 'native';
 
-      if (typeof lineMatch === "object" && lineMatch[1]) {
+      if (typeof lineMatch === 'object' && lineMatch[1]) {
         functionName = lineMatch[1];
-        let methodStart = (functionName as string).lastIndexOf(".");
-        if ((functionName as string)[methodStart - 1] == ".") {
-          methodStart--; 
+        let methodStart = (functionName as string).lastIndexOf('.');
+        if ((functionName as string)[methodStart - 1] == '.') {
+          methodStart--;
         }
         if (methodStart > 0) {
           object = (functionName as string).substr(0, methodStart);
           method = (functionName as string).substr(methodStart + 1);
-          const objectEnd = object.indexOf(".Module");
+          const objectEnd = object.indexOf('.Module');
           if (objectEnd > 0) {
             functionName = (functionName as string).substr(objectEnd + 1);
             object = object.substr(0, objectEnd);
@@ -74,7 +76,7 @@ export const parse = function (err) {
         methodName = method;
       }
 
-      if (method === "<anonymous>") {
+      if (method === '<anonymous>') {
         methodName = null;
         functionName = null;
       }
@@ -86,7 +88,7 @@ export const parse = function (err) {
         typeName,
         methodName,
         columnNumber: parseInt(lineMatch[4], 10) || null,
-        native: isNative
+        native: isNative,
       };
 
       return self._createParsedCallSite(properties);
@@ -98,13 +100,14 @@ export const parse = function (err) {
 
 export const capture = (reason) => {
   const e = new Error();
-  const stack = e.stack ? e.stack.split("\n").slice(2).join("\n") : "<no stack>";
+  const stack = e.stack
+    ? e.stack.split('\n').slice(2).join('\n')
+    : '<no stack>';
   if (reason) {
     return `Stack capture: ${reason}\n${stack}`;
   }
   return stack;
 };
-
 
 const CallSite = function (properties) {
   for (const property in properties) {
@@ -113,33 +116,30 @@ const CallSite = function (properties) {
 };
 
 const strProperties = [
-  "this",
-  "typeName",
-  "functionName",
-  "methodName",
-  "fileName",
-  "lineNumber",
-  "columnNumber",
-  "function",
-  "evalOrigin"
+  'this',
+  'typeName',
+  'functionName',
+  'methodName',
+  'fileName',
+  'lineNumber',
+  'columnNumber',
+  'function',
+  'evalOrigin',
 ];
-const boolProperties = [
-  "topLevel",
-  "eval",
-  "native",
-  "constructor"
-];
+const boolProperties = ['topLevel', 'eval', 'native', 'constructor'];
 strProperties.forEach((property) => {
   CallSite.prototype[property] = null;
-  CallSite.prototype[`get${property[0].toUpperCase()}${property.substr(1)}`] = function () {
-    return this[property];
-  };
+  CallSite.prototype[`get${property[0].toUpperCase()}${property.substr(1)}`] =
+    function () {
+      return this[property];
+    };
 });
 boolProperties.forEach((property) => {
   CallSite.prototype[property] = false;
-  CallSite.prototype[`is${property[0].toUpperCase()}${property.substr(1)}`] = function () {
-    return this[property];
-  };
+  CallSite.prototype[`is${property[0].toUpperCase()}${property.substr(1)}`] =
+    function () {
+      return this[property];
+    };
 });
 
 exports._createParsedCallSite = function (properties) {

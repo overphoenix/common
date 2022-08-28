@@ -1,18 +1,27 @@
-import { isArray, isBuffer, isDate, isFunction, isObject, isPlainObject, isRegexp } from "../predicates";
-import { keys } from "./entries";
+import {
+  isArray,
+  isBuffer,
+  isDate,
+  isFunction,
+  isObject,
+  isPlainObject,
+  isRegexp,
+} from '../predicates';
+import { keys } from './entries';
 
 export class Cloner {
-  clone(obj: any, {
-    deep = true,
-    nonPlainObjects = false,
-    enumOnly = true
-  } = {}) {
+  clone(
+    obj: any,
+    { deep = true, nonPlainObjects = false, enumOnly = true } = {},
+  ) {
     if (!isObject(obj)) {
       return obj;
     }
     if (isArray(obj)) {
       if (deep) {
-        return obj.map((x): any => this.clone(x, { deep, nonPlainObjects, enumOnly }));
+        return obj.map((x): any =>
+          this.clone(x, { deep, nonPlainObjects, enumOnly }),
+        );
       }
       return obj.slice(0);
     }
@@ -33,7 +42,9 @@ export class Cloner {
     }
     const res: any = {};
     for (const key of keys(obj, { enumOnly })) {
-      res[key] = deep ? this.clone(obj[key], { deep, nonPlainObjects, enumOnly }) : obj[key];
+      res[key] = deep
+        ? this.clone(obj[key], { deep, nonPlainObjects, enumOnly })
+        : obj[key];
     }
     return res;
   }

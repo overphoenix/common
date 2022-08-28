@@ -1,7 +1,7 @@
-import { isFinite } from "./predicates";
-import { IllegalStateException } from "./error";
+import { isFinite } from './predicates';
+import { IllegalStateException } from './error';
 
-const empty = Symbol.for("rs:empty");
+const empty = Symbol.for('rs:empty');
 
 interface Node {
   prev?: Node;
@@ -108,28 +108,28 @@ export class LinkedList {
   }
 
   /**
-     * Whether the list is full
-     *
-     * @returns {boolean}
-     */
+   * Whether the list is full
+   *
+   * @returns {boolean}
+   */
   get full() {
     return this.length === this._maxLength;
   }
 
   /**
-     * Whether the list is empty
-     *
-     * @returns {boolean}
-     */
+   * Whether the list is empty
+   *
+   * @returns {boolean}
+   */
   get empty() {
     return this.length === 0;
   }
 
   /**
-     * Resizes the list
-     *
-     * @param {number} newLength
-     */
+   * Resizes the list
+   *
+   * @param {number} newLength
+   */
   resize(newLength: number) {
     if (newLength === this._maxLength) {
       return this;
@@ -168,16 +168,16 @@ export class LinkedList {
   }
 
   /**
-     * Adds a new node to the end
-     *
-     * @returns {Node} Added node
-     */
+   * Adds a new node to the end
+   *
+   * @returns {Node} Added node
+   */
   push(value: any): Node {
     if (this.full) {
       if (this.autoresize) {
         this.resize(this._maxLength * 2);
       } else {
-        throw new IllegalStateException("Full");
+        throw new IllegalStateException('Full');
       }
     }
     this.tail = this.tail.next as Node;
@@ -188,10 +188,10 @@ export class LinkedList {
   }
 
   /**
-     * Removes the last node
-     *
-     * @returns {any} the last node's value
-     */
+   * Removes the last node
+   *
+   * @returns {any} the last node's value
+   */
   pop() {
     if (this.empty) {
       return;
@@ -205,10 +205,10 @@ export class LinkedList {
   }
 
   /**
-     * Removes the first node
-     *
-     * @returns {any} the first node's value
-     */
+   * Removes the first node
+   *
+   * @returns {any} the first node's value
+   */
   shift() {
     if (this.empty) {
       return;
@@ -222,16 +222,16 @@ export class LinkedList {
   }
 
   /**
-     * Inserts a new node at the beginning of the list
-     *
-     * @returns {Node} Added node
-     */
+   * Inserts a new node at the beginning of the list
+   *
+   * @returns {Node} Added node
+   */
   unshift(value: any) {
     if (this.full) {
       if (this.autoresize) {
         this.resize(this._maxLength * 2);
       } else {
-        throw new IllegalStateException("Full");
+        throw new IllegalStateException('Full');
       }
     }
     this.head = this.head.prev as Node;
@@ -241,10 +241,10 @@ export class LinkedList {
   }
 
   /**
-     * Moves the given node to the end of the list
-     *
-     * @returns {void}
-     */
+   * Moves the given node to the end of the list
+   *
+   * @returns {void}
+   */
   pushNode(node: Node) {
     if (node === this.tail) {
       return;
@@ -263,10 +263,10 @@ export class LinkedList {
   }
 
   /**
-     * Moved the given node to the beginning of the list
-     *
-     * @returns {void}
-     */
+   * Moved the given node to the beginning of the list
+   *
+   * @returns {void}
+   */
   unshiftNode(node: Node) {
     if (node === this.head) {
       return;
@@ -287,10 +287,10 @@ export class LinkedList {
   }
 
   /**
-     * Removes the given node from the list
-     *
-     * @returns {void}
-     */
+   * Removes the given node from the list
+   *
+   * @returns {void}
+   */
   removeNode(node: Node) {
     if (node === this.tail) {
       this.tail.value = empty;
@@ -305,14 +305,18 @@ export class LinkedList {
   }
 
   /**
-     * Clears the list
-     *
-     * @param {boolean} [strong = false] Whether to reset all the node's values
-     * @returns {void}
-     */
+   * Clears the list
+   *
+   * @param {boolean} [strong = false] Whether to reset all the node's values
+   * @returns {void}
+   */
   clear(strong = false) {
     if (strong) {
-      for (let i = 0, n = this.length, cursor = this.head; i < n; ++i, cursor = cursor.next as Node) {
+      for (
+        let i = 0, n = this.length, cursor = this.head;
+        i < n;
+        ++i, cursor = cursor.next as Node
+      ) {
         cursor.value = empty;
       }
     }
@@ -324,55 +328,59 @@ export class LinkedList {
   }
 
   /**
-     * Convers the list to an array
-     *
-     * @returns {any[]} all the elements of the list
-     */
+   * Convers the list to an array
+   *
+   * @returns {any[]} all the elements of the list
+   */
   toArray() {
     const f: any[] = [];
-    for (let i = 0, cursor = this.head, n = this.length; i < n; ++i, cursor = cursor.next as Node) {
+    for (
+      let i = 0, cursor = this.head, n = this.length;
+      i < n;
+      ++i, cursor = cursor.next as Node
+    ) {
       f.push(cursor.value);
     }
     return f;
   }
 
   /**
-     * The first element of the list
-     *
-     * @returns {any} the first node's value
-     */
+   * The first element of the list
+   *
+   * @returns {any} the first node's value
+   */
   get front() {
     if (this.length === 0) {
-      throw new IllegalStateException("Empty");
+      throw new IllegalStateException('Empty');
     }
     return this.head.value;
   }
 
   /**
-     * The last element of the list
-     *
-     * @returns {any} the last node's value
-     */
+   * The last element of the list
+   *
+   * @returns {any} the last node's value
+   */
   get back() {
     if (this.length === 0) {
-      throw new IllegalStateException("Empty");
+      throw new IllegalStateException('Empty');
     }
     return this.tail.value;
   }
 
   /**
-     * Returns an iterator over the list elements
-     */
+   * Returns an iterator over the list elements
+   */
   [Symbol.iterator]() {
     return new Iterator(this);
   }
 
   /**
-     * Returns the next node for the given node
-     *
-     * @param {Node} node
-     * @returns {Node} the next node
-     */
+   * Returns the next node for the given node
+   *
+   * @param {Node} node
+   * @returns {Node} the next node
+   */
   nextNode(node: Node) {
     if (!node) {
       return this.empty ? null : this.head;
@@ -384,12 +392,12 @@ export class LinkedList {
   }
 
   /**
-     * Invokes the given callback for each value from the beginning to the end (much faster than for-of).
-     * If the given function returns false it stops iterating.
-     *
-     * @param {(value: any, idx: number) => void} callback
-     * @returns {void}
-     */
+   * Invokes the given callback for each value from the beginning to the end (much faster than for-of).
+   * If the given function returns false it stops iterating.
+   *
+   * @param {(value: any, idx: number) => void} callback
+   * @returns {void}
+   */
   forEach(callback: Function) {
     let cursor = this.head;
     for (let i = 0; i < this.length; ++i) {
@@ -402,11 +410,11 @@ export class LinkedList {
   }
 
   /**
-     * Maps this linked list to a new one using the given function
-     *
-     * @param {(value: any, idx: number) => any} fn
-     * @returns {LinkedList}
-     */
+   * Maps this linked list to a new one using the given function
+   *
+   * @param {(value: any, idx: number) => any} fn
+   * @returns {LinkedList}
+   */
   map(fn: Function) {
     const res = new LinkedList();
     this.forEach((value: any, idx: number) => {
