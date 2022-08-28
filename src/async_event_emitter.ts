@@ -109,10 +109,7 @@ export class AsyncEventEmitter extends EventEmitter {
     );
   }
 
-  private _executeListener(
-    listener: Function,
-    args: any[],
-  ): Promise<any> {
+  private _executeListener(listener: Function, args: any[]): Promise<any> {
     try {
       if (this.throttler) {
         return this.throttler(() => listener(...args));

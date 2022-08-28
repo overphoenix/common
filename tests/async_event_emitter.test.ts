@@ -1,5 +1,8 @@
 import { AsyncEventEmitter } from '../lib/async_event_emitter.js';
-import { isEventEmitter, isAsyncEventEmitter } from '../lib/predicates/index.js';
+import {
+  isEventEmitter,
+  isAsyncEventEmitter,
+} from '../lib/predicates/index.js';
 
 describe('AsyncEventEmitter', () => {
   it('isEmitter() should return true', () => {

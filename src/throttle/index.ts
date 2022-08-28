@@ -1,5 +1,10 @@
 import { RateLimiter } from './rate_limiter.js';
-import { isNull, isFunction, isNumber, isPromise } from '../predicates/index.js';
+import {
+  isNull,
+  isFunction,
+  isNumber,
+  isPromise,
+} from '../predicates/index.js';
 import { LinkedList } from '../linked_list.js';
 
 const DROPPED = Symbol('DROPPED');

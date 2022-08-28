@@ -1,5 +1,10 @@
 import { falsely } from '../primitives.js';
-import { isArray, isFunction, isObject, isString } from '../predicates/index.js';
+import {
+  isArray,
+  isFunction,
+  isObject,
+  isString,
+} from '../predicates/index.js';
 import { typeOf } from '../typeof.js';
 import { keys } from './entries.js';
 import { InvalidArgumentException } from '../error/index.js';
