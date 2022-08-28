@@ -142,6 +142,6 @@ boolProperties.forEach((property) => {
     };
 });
 
-exports._createParsedCallSite = function (properties) {
+export const _createParsedCallSite = function (properties) {
   return new CallSite(properties);
 };
