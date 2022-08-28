@@ -1,3 +1,4 @@
+import os from 'node:os';
 import { isString } from '../predicates/index.js';
 import * as indent from 'indent';
 
@@ -77,7 +78,7 @@ export class NetronTimeoutException extends Exception {}
 const extractPathRegex = /\s+at.*(?:\(|\s)(.*)\)?/;
 const pathRegex =
   /^(?:(?:(?:node|(?:internal\/[\w/]*|.*node_modules\/babel-polyfill\/.*)?\w+)\.js:\d+:\d+)|native)/;
-const homeDir = require('os').homedir();
+const homeDir = os.homedir();
 
 export const cleanStack = (stack: string, { pretty = false } = {}) => {
   return stack
