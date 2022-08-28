@@ -15,8 +15,8 @@
     "experimentalDecorators": true,
     "declaration": true,
     "removeComments": true,
-    "moduleResolution": "NodeNext",
-    "module": "NodeNext",
+    "moduleResolution": "Node",
+    "module": "CommonJS",
   },
   "include": [
     "src"

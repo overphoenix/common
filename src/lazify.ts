@@ -1,4 +1,4 @@
-import { createRequire } from 'node:module';
+// import { createRequire } from 'node:module';
 import { isPlainObject } from './predicates/index.js';
 import { asNamespace, PRIVATE_SYMBOL } from './namespace.js';
 
@@ -19,7 +19,7 @@ export const setLazifyErrorHandler = (handler: (a: Error) => void) => {
   lazifyErrorhandler = handler;
 };
 
-const require = createRequire(import.meta.url);
+// const require = createRequire(import.meta.url);
 
 const requireSafe = (_require: (f: string) => any, value: string) => {
   try {
