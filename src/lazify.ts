@@ -1,4 +1,3 @@
-// import { createRequire } from 'node:module';
 import { isPlainObject } from './predicates/index.js';
 import { asNamespace, PRIVATE_SYMBOL } from './namespace.js';
 
@@ -19,8 +18,6 @@ export const setLazifyErrorHandler = (handler: (a: Error) => void) => {
   lazifyErrorhandler = handler;
 };
 
-// const require = createRequire(import.meta.url);
-
 const requireSafe = (_require: (f: string) => any, value: string) => {
   try {
     return _require(value);
@@ -35,7 +32,7 @@ const requireSafe = (_require: (f: string) => any, value: string) => {
 export const lazify = (
   modules: any,
   _obj: object | null,
-  _require = require,
+  _require: (f: string) => any,
   {
     asNamespace: _asNamespace = false,
     configurable = false,
@@ -117,7 +114,7 @@ lazify.mapper = defaultMapper;
 export const lazifyp = (
   modules: Array<any>,
   obj: any,
-  _require = require,
+  _require: (f: string) => any,
   options: any,
 ) => {
   if (isPlainObject(obj[PRIVATE_SYMBOL])) {
