@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   preset: "ts-jest",
   verbose: true,
   testTimeout: 60000,

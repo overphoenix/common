@@ -21,7 +21,7 @@
     "keepClassNames": true
   },
   "module": {
-    "type": "commonjs"
+    "type": "nodenext"
   },
   "isModule": true
 }
