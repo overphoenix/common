@@ -44,7 +44,8 @@ export const lazify = (
   const obj = _obj || {};
   Object.keys(modules).forEach((key) => {
     // Prevent `TypeError: Cannot set property fs of #<Object> which has only a getter`
-    if (!isPropertyDefined(obj, key)) {
+    const descr = Object.getOwnPropertyDescriptor(obj, key);
+    if (descr === undefined) {
       Object.defineProperty(obj, key, {
         configurable: true,
         enumerable,
