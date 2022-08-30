@@ -1,5 +1,5 @@
 {
-  "name": "@recalibratedsystems/common",
+  "name": "@recalibratedsystems/common-cjs",
   "version": "0.2.10",
   "description": "Common library",
   "types": "./lib/index.d.ts",
