@@ -1,11 +1,11 @@
-import { isPlainObject } from './predicates/index.js';
+import { isPlainObject, isPropertyDefined } from './predicates/index.js';
 import { asNamespace, PRIVATE_SYMBOL } from './namespace.js';
 
 export const defaultMapper = (mod: any, key: string): any =>
   mod !== null &&
-  typeof mod === 'object' &&
-  mod.__esModule === true &&
-  'default' in mod
+    typeof mod === 'object' &&
+    mod.__esModule === true &&
+    'default' in mod
     ? mod.default
     : mod;
 
@@ -43,68 +43,71 @@ export const lazify = (
 ) => {
   const obj = _obj || {};
   Object.keys(modules).forEach((key) => {
-    Object.defineProperty(obj, key, {
-      configurable: true,
-      enumerable,
-      get() {
-        const value = modules[key];
+    // Prevent `TypeError: Cannot set property fs of #<Object> which has only a getter`
+    if (!isPropertyDefined(obj, key)) {
+      Object.defineProperty(obj, key, {
+        configurable: true,
+        enumerable,
+        get() {
+          const value = modules[key];
 
-        let modExports;
-        const valueType = typeof value;
-        if (valueType === 'function') {
-          modExports = value(key);
-        } else if (valueType === 'string') {
-          modExports = requireSafe(_require, value);
-        } else if (
-          Array.isArray(value) &&
-          value.length >= 2 &&
-          typeof value[0] === 'string'
-        ) {
-          modExports = requireSafe(_require, value[0]);
+          let modExports;
+          const valueType = typeof value;
+          if (valueType === 'function') {
+            modExports = value(key);
+          } else if (valueType === 'string') {
+            modExports = requireSafe(_require, value);
+          } else if (
+            Array.isArray(value) &&
+            value.length >= 2 &&
+            typeof value[0] === 'string'
+          ) {
+            modExports = requireSafe(_require, value[0]);
 
-          const keepMapper = value[2] === true;
+            const keepMapper = value[2] === true;
 
-          if (!keepMapper) {
-            const selector = value[1];
-            const selectorType = typeof selector;
-            if (selectorType !== 'function' && selectorType !== 'string') {
-              throw new TypeError(
-                `Invalid export selector type: ${selectorType}`,
-              );
+            if (!keepMapper) {
+              const selector = value[1];
+              const selectorType = typeof selector;
+              if (selectorType !== 'function' && selectorType !== 'string') {
+                throw new TypeError(
+                  `Invalid export selector type: ${selectorType}`,
+                );
+              }
+              const prevMapper = mapper;
+              mapper = (mod, key: string) => {
+                const mappedExports = prevMapper(mod, key);
+                mapper = prevMapper; // restore
+                return selectorType === 'function'
+                  ? selector(mappedExports)
+                  : mappedExports[selector];
+              };
             }
-            const prevMapper = mapper;
-            mapper = (mod, key: string) => {
-              const mappedExports = prevMapper(mod, key);
-              mapper = prevMapper; // restore
-              return selectorType === 'function'
-                ? selector(mappedExports)
-                : mappedExports[selector];
-            };
+          } else {
+            throw new TypeError(`Invalid module type of ${key}`);
           }
-        } else {
-          throw new TypeError(`Invalid module type of ${key}`);
-        }
 
-        try {
-          modExports = mapper(modExports, key);
-        } catch (err) {
-          lazifyErrorhandler(err);
-        }
+          try {
+            modExports = mapper(modExports, key);
+          } catch (err) {
+            lazifyErrorhandler(err);
+          }
 
-        Object.defineProperty(obj, key, {
-          configurable,
-          enumerable,
-          writable,
-          value: modExports,
-        });
+          Object.defineProperty(obj, key, {
+            configurable,
+            enumerable,
+            writable,
+            value: modExports,
+          });
 
-        try {
-          return _asNamespace ? asNamespace(modExports) : modExports;
-        } catch (err) {
-          return modExports;
-        }
-      },
-    });
+          try {
+            return _asNamespace ? asNamespace(modExports) : modExports;
+          } catch (err) {
+            return modExports;
+          }
+        },
+      });
+    }
   });
 
   return obj;

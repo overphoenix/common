@@ -1,6 +1,6 @@
 {
   "name": "@recalibratedsystems/common",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Common library",
   "types": "./lib/index.d.ts",
   "exports": {
