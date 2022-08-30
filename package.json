@@ -1,13 +1,11 @@
 {
   "name": "@recalibratedsystems/common",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Common library",
   "types": "./lib/index.d.ts",
   "exports": {
     ".": "./lib/index.js",
-    "./package.json": "./package.json",
-    "./lazify": "./lib/lazify.js",
-    "./namespace": "./lib/namespace.js"
+    "./package.json": "./package.json"
   },
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",

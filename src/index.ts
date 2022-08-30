@@ -8,3 +8,5 @@ export * from './linked_list.js';
 export * from './typeof.js';
 export * from './regex.js';
 export * as promise from './promise.js';
+export * from './namespace.js';
+export * from './lazify.js';
