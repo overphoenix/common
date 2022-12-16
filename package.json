@@ -1,6 +1,6 @@
 {
   "name": "@recalibratedsystems/common-cjs",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "Common library",
   "types": "./lib/index.d.ts",
   "exports": {
@@ -43,6 +43,6 @@
   },
   "dependencies": {
     "errno": "^1.0.0",
-    "indent": "^0.0.2"
+    "indent-string": "^4.0.0"
   }
 }
