@@ -1,8 +1,7 @@
 {
-  "name": "@recalibratedsystems/common",
+  "name": "@recalibratedsystems/common-cjs",
   "version": "0.2.11",
   "description": "Common library",
-  "type": "module",
   "types": "./lib/index.d.ts",
   "exports": {
     ".": "./lib/index.js",

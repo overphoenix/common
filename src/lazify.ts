@@ -3,9 +3,9 @@ import { asNamespace, PRIVATE_SYMBOL } from './namespace.js';
 
 export const defaultMapper = (mod: any, key: string): any =>
   mod !== null &&
-    typeof mod === 'object' &&
-    mod.__esModule === true &&
-    'default' in mod
+  typeof mod === 'object' &&
+  mod.__esModule === true &&
+  'default' in mod
     ? mod.default
     : mod;
 
