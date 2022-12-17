@@ -1,6 +1,6 @@
 {
   "name": "@recalibratedsystems/common-cjs",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "description": "Common library",
   "types": "./lib/index.d.ts",
   "exports": {

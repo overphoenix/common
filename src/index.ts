@@ -1,6 +1,7 @@
 export * from './predicates/index.js';
 export * from './primitives.js';
-export * from './error/index.js';
+export * from './error/index.js'; // for compatibility
+export * as error from './error/index.js';
 export * from './async_event_emitter.js';
 export * from './utils/index.js';
 export * from './throttle/index.js';
