@@ -12,7 +12,12 @@ const DROPPED = Symbol('DROPPED');
 class Delayed {
   public cancelled = false;
 
-  constructor(public resolve, public fn, public self, public args) {}
+  constructor(
+    public resolve,
+    public fn,
+    public self,
+    public args,
+  ) {}
 
   cancel() {
     this.cancelled = true;

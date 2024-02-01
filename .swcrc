@@ -10,6 +10,7 @@
       "exportNamespaceFrom": false,
       "decorators": true,
       "decoratorsBeforeExport": true,
+      "allowSyntheticDefaultImports": true,
       "topLevelAwait": false,
       "importMeta": false,
       "preserveAllComments": false

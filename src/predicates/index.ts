@@ -161,6 +161,36 @@ export const isNumeral = (value: any) => {
   return isFinite(value);
 };
 
+export const isBigInt = (value: unknown): value is bigint =>
+  typeof value === 'bigint';
+
+export const isNumeralBigInt = (value: string) => {
+  try {
+    return BigInt(parseInt(value, 10)) !== BigInt(value);
+  } catch (e) {
+    return false;
+  }
+};
+
+export const isNumeralInteger = (value: any) => {
+  const tag = getTagSimple(value);
+  if (tag !== 'number' && tag !== 'string') {
+    return false;
+  }
+
+  if (isEmptyString(value)) {
+    return false;
+  }
+
+  try {
+    value = Number(value);
+  } catch (error) {
+    return false;
+  }
+
+  return Number.isInteger(value);
+};
+
 // Checks whether given value is an infinite number, i.e: +∞ or -∞.
 export const isInfinite = (val: any) => val === +1 / 0 || val === -1 / 0;
 

@@ -13,10 +13,11 @@
     "lib": ["ES2021"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "declaration": true,
     "removeComments": true,
     "moduleResolution": "Node",
-    "module": "CommonJS",
+    "module": "ESNext",
   },
   "include": [
     "src"
