@@ -22,7 +22,7 @@
     "keepClassNames": true
   },
   "module": {
-    "type": "commonjs"
+    "type": "es6"
   },
   "isModule": true
 }
